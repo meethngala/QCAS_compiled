@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="538.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="qcas.HomePageController">
+   <children>
+      <Label layoutX="122.0" layoutY="48.0" prefHeight="53.0" prefWidth="390.0" style="-fx-background-color: #ADD8E6;" text="Welcome to QCAS">
+         <font>
+            <Font name="Arial Black" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="233.0" fitWidth="200.0" layoutX="191.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Phil_login.png" />
+         </image>
+      </ImageView>
+      <Button id="loginButton" fx:id="loginButton" layoutX="245.0" layoutY="440.0" mnemonicParsing="false" onMouseClicked="#handleLoginAction" prefHeight="32.0" prefWidth="109.0" text="Login">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

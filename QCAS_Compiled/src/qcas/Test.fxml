@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import qcasMode.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.TestController">
+   <children>
+      <HBox layoutX="13.0" layoutY="14.0" prefHeight="99.0" prefWidth="571.0" style="-fx-background-color: #ADD8E6;">
+         <children>
+            <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #ADD8E6;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="47.0" prefWidth="125.0" text="Test">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="41.0" prefWidth="104.0" style="-fx-background-color: gray; -fx-border-color: black;" text="Help">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="45.0" prefWidth="119.0" style="-fx-background-radius: 20; -fx-background-color: gray;" text="Timer" />
+               </children>
+            </StackPane>
+         </children>
+      </HBox>
+      <FlowPane layoutX="170.0" layoutY="449.0" prefHeight="41.0" prefWidth="294.0">
+         <children>
+            <Hyperlink prefHeight="42.0" prefWidth="174.0" text="Prev">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink prefHeight="38.0" prefWidth="118.0" text="Next">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Hyperlink>
+         </children>
+      </FlowPane>
+      <Button layoutX="433.0" layoutY="523.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit" />
+      <AnchorPane layoutX="68.0" layoutY="138.0" prefHeight="310.0" prefWidth="488.0">
+         <children>
+            <Label layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="119.0" text="Question" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextArea id="testTextArea" fx:id="testTextArea" layoutX="20.0" layoutY="38.0" prefHeight="55.0" prefWidth="445.0" promptText="description" />
+            <RadioButton id="testRB1" fx:id="testRB1" layoutX="182.0" layoutY="118.0" mnemonicParsing="false" text="Option A" />
+            <RadioButton id="testRB2" fx:id="testRB2" layoutX="182.0" layoutY="155.0" mnemonicParsing="false" text="Option B">
+               <toggleGroup>
+                  <ToggleGroup fx:id="testTG" />
+               </toggleGroup></RadioButton>
+            <CheckBox layoutX="31.0" layoutY="197.0" mnemonicParsing="false" text="Option C" />
+            <CheckBox layoutX="31.0" layoutY="235.0" mnemonicParsing="false" text="Option D" />
+            <ToggleButton id="testTB" fx:id="testTB" disable="true" layoutX="172.0" layoutY="114.0" mnemonicParsing="false" opacity="0.0" prefHeight="112.0" prefWidth="137.0" toggleGroup="$testTG" />
+         </children>
+      </AnchorPane>
+      <Button id="reset" fx:id="reset" layoutX="107.0" layoutY="523.0" mnemonicParsing="false" onMouseClicked="#handleResetAction" prefHeight="30.0" prefWidth="70.0" text="Reset" />
+      <Button layoutX="273.0" layoutY="525.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="70.0" style="-fx-background-color: #d3d3d3;" text="Save" />
+   </children>
+</AnchorPane>
