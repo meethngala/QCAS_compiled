@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,5 +18,4 @@ public class MultipleChoice extends Question {
     public MultipleChoice(String abbreviation, String difficulty, String description, HashMap answerChoices, Integer answer, int questionNumber) {
         super(abbreviation, difficulty, description, answerChoices, answer, questionNumber);
     }
-    
 }

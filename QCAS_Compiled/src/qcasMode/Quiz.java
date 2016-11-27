@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -331,6 +332,54 @@ public class Quiz {
     
     public Result getResult() {
         return this.result;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public databaseConnection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(databaseConnection connection) {
+        this.connection = connection;
+    }
+
+    public Statement getStmt() {
+        return stmt;
+    }
+
+    public void setStmt(Statement stmt) {
+        this.stmt = stmt;
+    }
+
+    public PreparedStatement getPreparedStmt() {
+        return preparedStmt;
+    }
+
+    public void setPreparedStmt(PreparedStatement preparedStmt) {
+        this.preparedStmt = preparedStmt;
+    }
+
+    public int getQuizNumber() {
+        return quizNumber;
+    }
+
+    public void setQuizNumber(int quizNumber) {
+        this.quizNumber = quizNumber;
     }
 
 }

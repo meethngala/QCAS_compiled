@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -22,10 +23,26 @@ public class Result {
         return answers;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public HashMap getCheckAnswers() {
+        return checkAnswers;
+    }
+
+    public void setCheckAnswers(HashMap checkAnswers) {
+        this.checkAnswers = checkAnswers;
+    }
+
     public void setAnswers(LinkedHashMap<Question, ArrayList<String>> answers) {
         this.answers = answers;
     }
     
     
+    
 }
-

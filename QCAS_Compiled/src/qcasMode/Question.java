@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -152,7 +153,6 @@ public class Question {
 
                     System.out.println(ans.size());
                     System.out.println(i + "  " + answerChoices.size());
-
                     if (answerChoices.get(ans.get(i)).equals("incorrect")) {
                         check = false;
                     }
@@ -175,6 +175,18 @@ public class Question {
         }
 
         return check;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setAnswer(ArrayList<Integer> answer) {
+        this.answer = answer;
     }
 
 }
