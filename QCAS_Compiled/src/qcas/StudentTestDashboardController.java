@@ -32,6 +32,10 @@ public class StudentTestDashboardController implements Initializable {
     @FXML
     private Button startTestButton;
     @FXML
+    private Button LogoutButton ;
+    @FXML
+    private Button BackButton;
+    @FXML
     String difficultyLevel;
     @FXML
     private ComboBox studentTComboBox;
@@ -94,6 +98,26 @@ public class StudentTestDashboardController implements Initializable {
         stage.getOwner();
         stage.show();
         
+    }
+    
+   @FXML
+    private void goBack() throws IOException 
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("StudentAction.fxml"));
+                Stage stage = (Stage) BackButton.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+    }
+    
+    @FXML
+    private void logoutStudent() throws IOException 
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("StudentLoginPage.fxml"));
+                Stage stage = (Stage) LogoutButton.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
     }
     
 }
