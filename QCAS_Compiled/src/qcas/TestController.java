@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
@@ -128,8 +130,8 @@ public class TestController implements Initializable {
         this.quiz = new Quiz("Quiz_To_Test.txt",difficultyLevel,numberOfQuestions, "jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest", 0.25, 0.25,0.25, 0.25);
         currentQuestionCount += 1;
         testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
-        getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(0).answerChoices);
+        getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         setPrevNextButton(currentQuestionCount);
         return this;
     }    
@@ -241,15 +243,23 @@ public class TestController implements Initializable {
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
             testFIB.setVisible(false);
             HashMap<Question,ArrayList<String>> answers = this.getAnswers(q, radioButtonGroup);
-//            for (int i=0;i<radioButtonGroup.size();i++){
-//                if (answers.get(q).contains(radioButtonGroup.get(i))){
-//                    radioButtonGroup.get(i).setSelected(true);
-//                }
-//            }
             if (answers.get(q)!=null){
-                testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {if (answers.get(q).contains(button.getText())){button.setSelected(true);};});
+                for (int i=0;i<radioButtonGroup.size();i++){
+                RadioButton c1 = (RadioButton) radioButtonGroup.get(i);
+                    ArrayList<String> c = answers.get(q);
+                    System.out.println(c.get(0));System.out.println(c1.getText()); System.out.println(c.get(0).equals(c1.getText()));
+                    System.out.println(c.get(1));System.out.println(c1.getText());System.out.println(c.get(1).equals(c1.getText()));
+                    System.out.println(c.get(2));System.out.println(c1.getText());System.out.println(c.get(2).equals(c1.getText()));
+                    System.out.println(c.get(3));System.out.println(c1.getText());System.out.println(c.get(3).equals(c1.getText()));
+                    System.out.println(c1.getText());
+                    System.out.println(answers.get(q).contains(c1.getText()));
+                if (answers.get(q).contains(c1.getText())){
+                    c1.setSelected(true);
+                    }
+                }
             }
         }
+        
         else if(q.abbreviation.equals("MA")){
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
@@ -326,8 +336,8 @@ public class TestController implements Initializable {
         setPrevNextButton(currentQuestionCount);
         if (currentQuestionCount<=numberOfQuestions){
             testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
-            getOptionsPane(quiz.questions.get(currentQuestionCount-1));
             setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(currentQuestionCount-1).answerChoices);            
+            getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         }
     }
     
@@ -338,8 +348,8 @@ public class TestController implements Initializable {
         setPrevNextButton(currentQuestionCount);
         if (currentQuestionCount<=numberOfQuestions){
             testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
-            getOptionsPane(quiz.questions.get(currentQuestionCount-1));
             setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(currentQuestionCount-1).answerChoices);            
+            getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         }
     }
     
@@ -365,13 +375,10 @@ public class TestController implements Initializable {
         for (int i=0;i<B.size();i++){
           if (B.get(i).getClass()==RadioButton.class){
                 RadioButton r= (RadioButton) B.get(i);
-                System.out.println(r.getText());
                 if(r.isSelected()){
-                    System.out.println(r.isSelected());
                     answers.add(r.getText());
                 }
                 else{
-                    System.out.println(r.isSelected());
                     answers.add("null");}
             }
             if (B.get(i).getClass()==CheckBox.class){
@@ -395,41 +402,19 @@ public class TestController implements Initializable {
         return answers;
     }
 
-//    @FXML
-//    public ArrayList<String> handleSubmitAction(MouseEvent event){
-//        ArrayList<String> answers = new ArrayList();
-//        for (int i=0;i<B.size();i++){
-//          if (B.get(i).getClass()==RadioButton.class){
-//                RadioButton r= (RadioButton) B.get(i);
-//                System.out.println(r.getText());
-//                if(r.isSelected()){
-//                    System.out.println(r.isSelected());
-//                    answers.add(r.getText());
-//                }
-//                else{
-//                    System.out.println(r.isSelected());
-//                    answers.add("null");}
-//            }
-//            if (B.get(i).getClass()==CheckBox.class){
-//                CheckBox c= (CheckBox)B.get(i);
-//                if(c.isSelected()){
-//                    answers.add(c.getText());
-//                }
-//                else
-//                    answers.add("null");
-//            }
-//            if (B.get(i).getClass()==TextField.class){
-//                TextField c= (TextField)B.get(i);
-//                if(c.getText()!=""){
-//                    answers.add(c.getText());
-//                }
-//                else
-//                    answers.add("null");
-//            }
-//        }
-//        
-//        return answers;
-//    }
-    
+    @FXML
+    public void handleSubmitAction(MouseEvent event){
+        setAnswers(quiz.questions.get(currentQuestionCount-1),getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation));
+        List<Question> questionObjects = new ArrayList<>();
+        ArrayList<ArrayList<String>> value = new ArrayList();
+        for (Map.Entry<Question, ArrayList<String>> entry : quiz.getResult().getAnswers().entrySet()) {
+            questionObjects.add(entry.getKey());
+//                String key = entry.getKey();
+            value.add(entry.getValue());
+        }
+        
+        quiz.insertResults(questionObjects, value);
+        
+    }
     
 }
