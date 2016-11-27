@@ -127,7 +127,7 @@ public class TestController implements Initializable {
         testFIB.setText("A");
         setDifficultyLevel(difficultyLevelString);
         setNumberOfQuestions(numberOfQuestion);
-        this.quiz = new Quiz("Quiz_To_Test.txt",difficultyLevel,numberOfQuestions, "jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest", 0.25, 0.25,0.25, 0.25);
+        this.quiz = new Quiz(difficultyLevel,numberOfQuestions, "jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest", 0.25, 0.25,0.25, 0.25);
         currentQuestionCount += 1;
         testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
         setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(0).answerChoices);
