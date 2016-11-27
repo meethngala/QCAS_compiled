@@ -9,17 +9,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="441.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentTestDashboardController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentTestDashboardController">
    <children>
-      <ComboBox id="TypeofQuestionComboBox" layoutX="43.0" layoutY="90.0" prefHeight="25.0" prefWidth="172.0" promptText="Number of Questions" visibleRowCount="4" />
+      <ComboBox id="studentTComboBox" fx:id="studentTComboBox" layoutX="43.0" layoutY="48.0" prefHeight="25.0" prefWidth="172.0" promptText="Number of Questions" visibleRowCount="4" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" layoutY="217.0" prefHeight="47.0" prefWidth="153.0" text="Difficulty">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <RadioButton id="EasyRadioButton" layoutX="423.0" layoutY="264.0" mnemonicParsing="false" text="Easy" />
-      <RadioButton id="MediumRadioButton" layoutX="423.0" layoutY="291.0" mnemonicParsing="false" text="Medium" />
-      <RadioButton id="HardRadioButton" layoutX="422.0" layoutY="321.0" mnemonicParsing="false" text="Hard" />
+      <RadioButton id="RB1" fx:id="RB1" layoutX="457.0" layoutY="264.0" mnemonicParsing="false" text="Easy">
+         <toggleGroup>
+            <ToggleGroup fx:id="studentTG" />
+         </toggleGroup></RadioButton>
+      <RadioButton id="RB2" fx:id="RB2" layoutX="457.0" layoutY="300.0" mnemonicParsing="false" text="Medium" toggleGroup="$studentTG" />
+      <RadioButton id="RB3" fx:id="RB3" layoutX="456.0" layoutY="334.0" mnemonicParsing="false" text="Hard" toggleGroup="$studentTG" />
       <ImageView fitHeight="186.0" fitWidth="257.0" layoutX="43.0" layoutY="165.0">
          <image>
             <Image url="@../images/Questions.jpg" />
@@ -35,6 +38,7 @@
             <Font size="24.0" />
          </font>
       </Button>
+      <ToggleButton layoutX="423.0" layoutY="262.0" mnemonicParsing="false" opacity="0.0" prefHeight="109.0" prefWidth="128.0" toggleGroup="$studentTG" visible="false" />
    </children>
    <stylesheets>
       <URL value="@studentdashboard.css" />
