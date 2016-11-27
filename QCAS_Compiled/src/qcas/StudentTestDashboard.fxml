@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -10,42 +9,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="441.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentTestDashboardController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentTestDashboardController">
    <children>
-      <ComboBox id="TypeofQuestionComboBox" layoutX="44.0" layoutY="196.0" prefHeight="25.0" prefWidth="172.0" promptText="Number of Questions" visibleRowCount="4" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="246.0" prefHeight="47.0" prefWidth="324.0" text="Choose the difficulty level">
+      <ComboBox id="studentTComboBox" fx:id="studentTComboBox" layoutX="43.0" layoutY="48.0" prefHeight="25.0" prefWidth="172.0" promptText="Number of Questions" visibleRowCount="4" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" layoutY="217.0" prefHeight="47.0" prefWidth="153.0" text="Difficulty">
          <font>
-            <Font name="Arial Black" size="18.0" />
+            <Font size="32.0" />
          </font>
       </Label>
-      <RadioButton id="EasyRadioButton" layoutX="44.0" layoutY="293.0" mnemonicParsing="false" text="Easy" />
-      <RadioButton id="MediumRadioButton" layoutX="43.0" layoutY="319.0" mnemonicParsing="false" text="Medium" />
-      <RadioButton id="HardRadioButton" layoutX="43.0" layoutY="344.0" mnemonicParsing="false" text="Hard" />
-      <Button id="startTestButton" fx:id="startTestButton" layoutX="344.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#goToTest" prefHeight="47.0" prefWidth="181.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 10;" text="Start Test!">
+      <RadioButton id="RB1" fx:id="RB1" layoutX="457.0" layoutY="264.0" mnemonicParsing="false" text="Easy">
+         <toggleGroup>
+            <ToggleGroup fx:id="studentTG" />
+         </toggleGroup></RadioButton>
+      <RadioButton id="RB2" fx:id="RB2" layoutX="457.0" layoutY="300.0" mnemonicParsing="false" text="Medium" toggleGroup="$studentTG" />
+      <RadioButton id="RB3" fx:id="RB3" layoutX="456.0" layoutY="334.0" mnemonicParsing="false" text="Hard" toggleGroup="$studentTG" />
+      <ImageView fitHeight="186.0" fitWidth="257.0" layoutX="43.0" layoutY="165.0">
+         <image>
+            <Image url="@../images/Questions.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="109.0" fitWidth="215.0" layoutX="349.0" layoutY="48.0">
+         <image>
+            <Image url="@../images/Difficulty%20level.jpg" />
+         </image>
+      </ImageView>
+      <Button id="startTestButton" fx:id="startTestButton" layoutX="210.0" layoutY="372.0" mnemonicParsing="false" onMouseClicked="#goToTest" prefHeight="47.0" prefWidth="181.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 10;" text="Start Test">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label layoutX="43.0" layoutY="152.0" prefHeight="27.0" prefWidth="324.0" text="Choose the number of questions">
-         <font>
-            <Font name="Arial Black" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="99.0" fitWidth="311.0" layoutX="43.0" layoutY="27.0">
-         <image>
-            <Image url="@../images/are-you-ready.jpg" />
-         </image>
-      </ImageView>
-      <Button fx:id="LogoutButton" layoutX="517.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#logoutStudent" text="Logout">
-         <effect>
-            <InnerShadow color="#1789b2" />
-         </effect>
-      </Button>
-      <Button fx:id="BackButton" layoutX="444.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#goBack" prefHeight="25.0" prefWidth="54.0" text="Back">
-         <effect>
-            <InnerShadow color="#3f9bb2" />
-         </effect>
-      </Button>
+      <ToggleButton layoutX="423.0" layoutY="262.0" mnemonicParsing="false" opacity="0.0" prefHeight="109.0" prefWidth="128.0" toggleGroup="$studentTG" visible="false" />
    </children>
    <stylesheets>
       <URL value="@studentdashboard.css" />
