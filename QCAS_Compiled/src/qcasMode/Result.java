@@ -5,7 +5,9 @@
  */
 package qcasMode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -14,5 +16,16 @@ import java.util.HashMap;
 public class Result {
     int score;
     HashMap checkAnswers = new HashMap();
+    LinkedHashMap<Question, ArrayList<String>> answers = new LinkedHashMap<Question, ArrayList<String>>();
+
+    public LinkedHashMap<Question, ArrayList<String>> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(LinkedHashMap<Question, ArrayList<String>> answers) {
+        this.answers = answers;
+    }
+    
     
 }
+
