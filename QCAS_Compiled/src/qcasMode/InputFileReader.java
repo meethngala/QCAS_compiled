@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import com.opencsv.CSVReader;
+import java.io.FileReader;
 
 
 /**
@@ -27,7 +29,7 @@ public class InputFileReader {
     /**
      *Breaks each row into elements and stores into array list of string arrays. 
      */
-    public ArrayList<String[]> wordsArray = new ArrayList();
+    public List<String[]> wordsArray = new ArrayList();
     
     /**
      *Reads the file line by line and stores data in fieldslines and wordsarray
@@ -36,27 +38,27 @@ public class InputFileReader {
      */
     public void readFile(String filePath) throws  IOException{
         FileReader filereader = new FileReader(filePath);
-        
         //BufferedReader for the file
         BufferedReader reader = new BufferedReader(filereader);
-        String line;
-        int i =0;
-        //Read data from a file
-        while ((line=reader.readLine())!=null) {
+        CSVReader reader1 = new CSVReader(new FileReader(filePath));
+        wordsArray = reader1.readAll();
 
-            fieldsLines.add(i,line); // each row is added to the arraylist
-            i++;
-        }
-        
-        for (i=0;i<fieldsLines.size();i++){
-            int j =0;
-            StringTokenizer str = new StringTokenizer(fieldsLines.get(i),",");
-            String[] wordsArray = new String[str.countTokens()]; // each row is broken into elements using a delimiter and each element is stored in wordsArray
-            while (str.hasMoreTokens()){
-                wordsArray[j] = str.nextToken(); 
-                j++;
-            }
-            this.wordsArray.add(wordsArray);   // returns the wordsarray
+//        int i =0;
+//        String line;
+//        //Read data from a file
+//        while ((line=reader.readNext())!=null) {
+//            fieldsLines.add(i,line); // each row is added to the arraylist
+//            i++;
+//        }
+//        
+//        for (i=0;i<fieldsLines.size();i++){
+//            int j =0;
+//            StringTokenizer str = new StringTokenizer(fieldsLines.get(i),",");
+//            String[] wordsArray = new String[str.countTokens()]; // each row is broken into elements using a delimiter and each element is stored in wordsArray
+//            while (str.hasMoreTokens()){
+//                wordsArray[j] = str.nextToken(); 
+//                j++;
+//            }
+//            this.wordsArray.add(wordsArray);   // returns the wordsarray
         }
     }
-}

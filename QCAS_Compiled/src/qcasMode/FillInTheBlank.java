@@ -5,6 +5,8 @@
  */
 package qcasMode;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,8 +15,9 @@ import java.util.HashMap;
  */
 public class FillInTheBlank extends Question {
     
-    public FillInTheBlank(String abbreviation, String difficulty, String description, HashMap answerChoices, String answer) {
-        super(abbreviation, difficulty, description, answerChoices, answer);
+    public FillInTheBlank(String abbreviation, String difficulty, String description, HashMap answerChoices, Integer answer, int questionNumber) {
+        super(abbreviation, difficulty, description, answerChoices, answer, questionNumber);
     }
+    
     
 }

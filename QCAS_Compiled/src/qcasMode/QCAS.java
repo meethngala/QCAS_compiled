@@ -19,7 +19,7 @@ public class QCAS {
      */
     public static void main(String[] args) throws IOException, SQLException {
         // TODO code application logic here
-        Quiz quiz = new Quiz("Quiz_To_Test.txt","M",4, "jdbc:derby:QuizDB;create=true", "scott", "tiger", .25, .25,.25, .25); //Provide the details to conduct quiz
+        Quiz quiz = new Quiz("Quiz5.txt","M",4, "jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest", 0.01, 0.01,1.0, 0.01); //Provide the details to conduct quiz
         //quiz.conductQuiz(); //Conduct the quiz
 
     }
