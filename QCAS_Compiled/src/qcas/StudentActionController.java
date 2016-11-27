@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -28,10 +29,12 @@ public class StudentActionController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    private Button quizButton;
+    private ImageView quizImage;
+    
     
     @FXML
-    private Button teacherLoginButton;
+    private Button LogoutButton;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -39,11 +42,22 @@ public class StudentActionController implements Initializable {
     @FXML
     private void goToTestOptions(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StudentTestDashboard.fxml"));
-        Stage stage = (Stage) quizButton.getScene().getWindow();
+        Stage stage = (Stage) quizImage.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+    
+    @FXML
+    private void logoutStudent(MouseEvent event) throws IOException 
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("StudentLoginPage.fxml"));
+        Stage stage = (Stage) LogoutButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
 
     
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
@@ -8,58 +10,11 @@
 <?import javafx.scene.layout.*?>
 <?import qcasMode.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.TestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="615.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.TestController">
    <children>
-      <HBox layoutX="13.0" layoutY="14.0" prefHeight="99.0" prefWidth="571.0" style="-fx-background-color: #ADD8E6;">
+      <AnchorPane layoutX="6.0" layoutY="129.0" prefHeight="337.0" prefWidth="551.0">
          <children>
-            <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #ADD8E6;">
-               <children>
-                  <Label alignment="CENTER" prefHeight="47.0" prefWidth="125.0" text="Test">
-                     <font>
-                        <Font size="38.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER" prefHeight="41.0" prefWidth="104.0" style="-fx-background-color: gray; -fx-border-color: black;" text="Help">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER" prefHeight="45.0" prefWidth="119.0" style="-fx-background-radius: 20; -fx-background-color: gray;" text="Timer" />
-               </children>
-            </StackPane>
-         </children>
-      </HBox>
-      <FlowPane layoutX="170.0" layoutY="449.0" prefHeight="41.0" prefWidth="294.0">
-         <children>
-            <Hyperlink id="testPrev" fx:id="testPrev" onMouseClicked="#handlePrevAction" prefHeight="42.0" prefWidth="174.0" text="Prev" visible="false">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Hyperlink>
-            <Hyperlink id="testNext" fx:id="testNext" onMouseClicked="#handleNextAction" prefHeight="38.0" prefWidth="118.0" text="Next" visible="false">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Hyperlink>
-         </children>
-      </FlowPane>
-      <Button fx:id="submit" layoutX="433.0" layoutY="523.0" mnemonicParsing="false" onMouseClicked="#handleSubmitAction" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit" />
-      <AnchorPane layoutX="68.0" layoutY="138.0" prefHeight="310.0" prefWidth="488.0">
-         <children>
-            <Label layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="119.0" text="Question" textAlignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextArea id="testTextArea" fx:id="testTextArea" layoutX="20.0" layoutY="38.0" prefHeight="55.0" prefWidth="445.0" promptText="description" />
+            <TextArea id="testTextArea" fx:id="testTextArea" editable="false" layoutX="14.0" layoutY="36.0" prefHeight="55.0" prefWidth="516.0" promptText="description" style="-fx-border-color: #eef7f3;" />
             <RadioButton id="testRB1" fx:id="testRB1" layoutX="55.0" layoutY="111.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Option A" wrapText="true">
                <toggleGroup>
                   <ToggleGroup fx:id="testTGRB" />
@@ -71,16 +26,53 @@
             <RadioButton id="testRB4" fx:id="testRB4" layoutX="55.0" layoutY="219.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Option D" toggleGroup="$testTGRB" wrapText="true" />
             <CheckBox id="testCB1" fx:id="testCB1" layoutX="55.0" layoutY="111.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Option A" wrapText="true" />
             <CheckBox id="testCB2" fx:id="testCB2" layoutX="55.0" layoutY="148.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Option B" wrapText="true" />
-            <TextField id="testFIB" layoutX="150.0" layoutY="157.0" visible="false" />
-            <RadioButton id="testRBTF1" fx:id="testRBTF1" layoutX="156.0" layoutY="129.0" mnemonicParsing="false" text="True">
+            <RadioButton id="testRBTF1" fx:id="testRBTF1" layoutX="158.0" layoutY="120.0" mnemonicParsing="false" text="True">
                <toggleGroup>
                   <ToggleGroup fx:id="testTGRBTF" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton id="testTFRB2" fx:id="testRBTF2" layoutX="156.0" layoutY="199.0" mnemonicParsing="false" text="False" toggleGroup="$testTGRBTF" />
+            <RadioButton id="testTFRB2" fx:id="testRBTF2" layoutX="157.0" layoutY="161.0" mnemonicParsing="false" text="False" toggleGroup="$testTGRBTF" />
+            <Label fx:id="MAanswerLabel" layoutX="17.0" layoutY="6.0" prefHeight="17.0" prefWidth="340.0" text="The following question has more than one correct answer." visible="false">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="MCanswerLabel" layoutY="6.0" prefHeight="17.0" prefWidth="340.0" text="The following question has only one correct answer." visible="false">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="TFanswerLabel" layoutY="6.0" prefHeight="17.0" prefWidth="340.0" text="The following question has one answer: True/False" visible="false">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="FIBanswerLabel" layoutX="16.0" layoutY="6.0" prefHeight="17.0" prefWidth="417.0" text="The following question has one answer:  Enter text into the textbox." visible="false">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Hyperlink id="testPrev" fx:id="testPrev" layoutX="55.0" layoutY="267.0" onMouseClicked="#handlePrevAction" prefHeight="29.0" prefWidth="60.0" style="-fx-border-color: #000000;" text="Previous" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink id="testNext" fx:id="testNext" layoutX="349.0" layoutY="267.0" onMouseClicked="#handleNextAction" prefHeight="29.0" prefWidth="60.0" style="-fx-border-color: #000000;" text="Next" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <FlowPane layoutX="388.0" layoutY="262.0" prefHeight="25.0" prefWidth="89.0" visible="false" />
+            <Button layoutX="464.0" layoutY="309.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit Test" />
+            <TextField fx:id="fibAnswerBlank" layoutX="201.0" layoutY="136.0" promptText="Enter answer here" />
          </children>
       </AnchorPane>
-      <Button id="reset" fx:id="reset" layoutX="107.0" layoutY="523.0" mnemonicParsing="false" onMouseClicked="#handleResetAction" prefHeight="30.0" prefWidth="70.0" text="Reset" />
-      <Button layoutX="273.0" layoutY="525.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="70.0" style="-fx-background-color: #d3d3d3;" text="Save" />
+      <ImageView fitHeight="103.0" fitWidth="613.0">
+         <image>
+            <Image url="@../images/red-cmu-display.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="384.0" layoutY="109.0" prefHeight="17.0" prefWidth="107.0" text="Time Remaining: " />
+      <TextArea fx:id="TimerTextArea" layoutX="497.0" layoutY="105.0" prefHeight="25.0" prefWidth="60.0" />
    </children>
 </AnchorPane>

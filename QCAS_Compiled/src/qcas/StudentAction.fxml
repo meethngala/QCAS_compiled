@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,27 +10,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="586.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentActionController">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="608.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentActionController">
    <children>
-      <Label layoutX="22.0" layoutY="28.0" prefHeight="39.0" prefWidth="285.0" style="-fx-background-color: #ADD8E6;" text="Welcome Student!">
+      <ImageView fx:id="quizImage" fitHeight="124.0" fitWidth="241.0" layoutX="36.0" layoutY="193.0" onMouseClicked="#goToTestOptions">
+         <image>
+            <Image url="@../images/WordPress-Plugins-Quiz.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="133.0" fitWidth="257.0" layoutX="309.0" layoutY="314.0">
+         <image>
+            <Image url="@../images/past_performance.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="LogoutButton" layoutX="535.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#logoutStudent" text="Logout">
+         <effect>
+            <InnerShadow color="#1789b2" />
+         </effect>
+      </Button>
+      <Label layoutX="140.0" layoutY="116.0" prefHeight="40.0" prefWidth="296.0" text="Welcome Student!">
          <font>
             <Font name="Arial Black" size="26.0" />
          </font>
       </Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="57.0" layoutY="293.0" pickOnBounds="true">
+      <ImageView fitHeight="103.0" fitWidth="613.0" layoutX="1.0">
          <image>
-            <Image url="@../images/quiz.jpg" />
+            <Image url="@../images/red-cmu-display.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="172.0" layoutX="354.0" layoutY="276.0" pickOnBounds="true">
-         <image>
-            <Image url="@../images/report.jpg" />
-         </image>
-      </ImageView>
-      <Button id="quizButton" fx:id="quizButton" layoutX="61.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#goToTestOptions" opacity="0.0" prefHeight="139.0" prefWidth="187.0" />
-      <Button layoutX="361.0" layoutY="278.0" mnemonicParsing="false" prefHeight="158.0" prefWidth="161.0" text="Button" visible="false" />
-      <Separator layoutX="298.0" layoutY="174.0" orientation="VERTICAL" prefHeight="380.0" prefWidth="10.0" />
-      <Label layoutX="81.0" layoutY="214.0" prefHeight="31.0" prefWidth="136.0" text="Take Quiz" />
-      <Label layoutX="378.0" layoutY="212.0" prefHeight="25.0" prefWidth="130.0" text="Check Performance" />
    </children>
 </AnchorPane>

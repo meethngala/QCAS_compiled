@@ -14,8 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -23,12 +21,10 @@ import javafx.stage.Stage;
  *
  * @author Meeth
  */
-public class LoginController implements Initializable {
+public class TeacherActionController implements Initializable {
+
     @FXML
-    private ImageView studentLoginImage;
-    
-    @FXML
-    private ImageView teacherLoginImage ;
+    private Button logoutButton ;
     /**
      * Initializes the controller class.
      */
@@ -36,21 +32,15 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    @FXML
-    private void goToStudentLogin(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("StudentLoginPage.fxml"));
-        Stage stage = (Stage) studentLoginImage.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
     
     @FXML
-    private void goToTeacherLogin(MouseEvent event) throws IOException {
+    public void logoutTeacher() throws IOException
+    {
         Parent root = FXMLLoader.load(getClass().getResource("TeacherLoginPage.fxml"));
-        Stage stage = (Stage) teacherLoginImage.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+                Stage stage = (Stage) logoutButton.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
     }
+    
 }

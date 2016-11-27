@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -29,6 +32,7 @@ import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -47,13 +51,11 @@ import qcasMode.*;
  * @author Meeth
  */
 public class TestController implements Initializable {
-    @FXML
-    private Button reset;
+    
     @FXML
     private Hyperlink testNext;
     @FXML
     private Hyperlink testPrev;
-    @FXML
     private Quiz quiz;
     @FXML
     private RadioButton testRB1;
@@ -75,31 +77,38 @@ public class TestController implements Initializable {
     private RadioButton testRBTF1;
     @FXML
     private RadioButton testRBTF2;
-    @FXML
-    private TextField testFIB = new TextField();
+   
     @FXML
     private TextArea testTextArea;
     @FXML
     private ToggleGroup testTGRB;
     @FXML
     private ToggleGroup testTGRBTF;
-    @FXML
-    private ToggleGroup testTGCB;
-    @FXML
     private String difficultyLevel;
-    @FXML
     private int numberOfQuestions;
-    @FXML
     private int currentQuestionCount=0;
-    @FXML
     private ArrayList<Control> checkBoxGroup = new ArrayList();
-    @FXML
     private ArrayList<Control> radioButtonGroup = new ArrayList();
-    @FXML
     private ArrayList<Control> trueFalseGroup = new ArrayList();
-    @FXML
     private ArrayList<Control> fillInTheBlankGroup = new ArrayList();
-    
+    @FXML
+    private Label MAanswerLabel ;
+    @FXML
+    private Label MCanswerLabel ;
+    @FXML
+    private Label TFanswerLabel ;
+    @FXML
+    private Label FIBanswerLabel ;
+    public static int secs;
+    public static int maxTime;
+    @FXML
+    private TextArea TimerTextArea ;
+    private Label timeupLabel ;
+    private Label continueButton ;
+    @FXML
+    private TextField fibAnswerBlank;
+   
+
     public TestController() throws IOException, SQLException {
         
     }
@@ -123,8 +132,8 @@ public class TestController implements Initializable {
         checkBoxGroup.add(testCB2);
         checkBoxGroup.add(testCB3);
         checkBoxGroup.add(testCB4);
-        fillInTheBlankGroup.add(testFIB);
-        testFIB.setText("A");
+        fillInTheBlankGroup.add(fibAnswerBlank);
+        testTextArea.setWrapText(true) ;
         setDifficultyLevel(difficultyLevelString);
         setNumberOfQuestions(numberOfQuestion);
         this.quiz = new Quiz(difficultyLevel,numberOfQuestions, "jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest", 0.25, 0.25,0.25, 0.25);
@@ -133,30 +142,48 @@ public class TestController implements Initializable {
         setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(0).answerChoices);
         getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         setPrevNextButton(currentQuestionCount);
+        
+        
+        //Timer 
+        secs=(numberOfQuestion*60)+1;
+        final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleWithFixedDelay(new Runnable()
+        {
+           @Override
+           public void run()
+          {
+            secs--;
+            TimerTextArea.setText((Integer.toString(secs/60))+ " : "
+            +Integer.toString(secs%60));
+
+          if(secs==0){
+              timeupLabel.setVisible(true);
+              continueButton.setVisible(true);
+              service.shutdownNow();
+          }
+
+        }
+      }, 0, 1, TimeUnit.SECONDS);
         return this;
     }    
     
-    @FXML
     public void setDifficultyLevel(String difficultyLevelString){
         this.difficultyLevel = difficultyLevelString;
         
     }
     
-    @FXML
     public void setButtonsVisible(ArrayList<Control> B){
         for (int i=0;i<B.size();i++){
             B.get(i).setVisible(true);
         }
     }
     
-    @FXML
     public void setButtonsInvisible(ArrayList<Control> B){
         for (int i=0;i<B.size();i++){
             B.get(i).setVisible(false);
         }
     }
     
-    @FXML
     public void unselectCheckBoxes(ArrayList<Control> B){
         for (int i=0;i<B.size();i++){
             CheckBox c1 = (CheckBox) B.get(i);
@@ -165,7 +192,6 @@ public class TestController implements Initializable {
     }
     
     
-    @FXML
     public ArrayList<String> getSelectedCheckBoxes(ArrayList<Control> B){
         ArrayList<String> answers = new ArrayList();
         for (int i=0;i<B.size();i++){
@@ -177,13 +203,11 @@ public class TestController implements Initializable {
         return answers;
     }
     
-    @FXML
     public void setNumberOfQuestions(int numberOfQuestions){
         this.numberOfQuestions = numberOfQuestions;
         
     }
     
-    @FXML
     public void setAnswerOptions(ArrayList<Control> B, HashMap answerChoices){
         for (int i=0;i<B.size();i++){
             if (getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation)!=trueFalseGroup){
@@ -199,7 +223,6 @@ public class TestController implements Initializable {
         
     }
     
-    @FXML
     public void setPrevNextButton(int currentQuestionCount){
         if (currentQuestionCount==1){
             testNext.setVisible(true);
@@ -215,9 +238,9 @@ public class TestController implements Initializable {
         }
     }
     
-    @FXML
     public ArrayList<Control> getActiveGroup(String questionType){
         if(questionType.equals("MC")){
+            
             return radioButtonGroup;
         }
         else if(questionType.equals("MA")){
@@ -232,42 +255,36 @@ public class TestController implements Initializable {
         return trueFalseGroup;
     }
     
-    @FXML
     public void getOptionsPane(Question q){
         if(q.abbreviation.equals("MC")){
+            MCanswerLabel.setVisible(true) ;
+            MAanswerLabel.setVisible(false) ;
+            TFanswerLabel.setVisible(false) ;
+            FIBanswerLabel.setVisible(false) ;
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             unselectCheckBoxes(checkBoxGroup);
             setButtonsInvisible(checkBoxGroup);
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(true);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
-            testFIB.setVisible(false);
-            HashMap<Question,ArrayList<String>> answers = this.getAnswers(q, radioButtonGroup);
+            fibAnswerBlank.setVisible(false);
+            HashMap<Question,ArrayList<String>> answers = this.getAnswers(q, radioButtonGroup);          
             if (answers.get(q)!=null){
-                for (int i=0;i<radioButtonGroup.size();i++){
-                RadioButton c1 = (RadioButton) radioButtonGroup.get(i);
-                    ArrayList<String> c = answers.get(q);
-                    System.out.println(c.get(0));System.out.println(c1.getText()); System.out.println(c.get(0).equals(c1.getText()));
-                    System.out.println(c.get(1));System.out.println(c1.getText());System.out.println(c.get(1).equals(c1.getText()));
-                    System.out.println(c.get(2));System.out.println(c1.getText());System.out.println(c.get(2).equals(c1.getText()));
-                    System.out.println(c.get(3));System.out.println(c1.getText());System.out.println(c.get(3).equals(c1.getText()));
-                    System.out.println(c1.getText());
-                    System.out.println(answers.get(q).contains(c1.getText()));
-                if (answers.get(q).contains(c1.getText())){
-                    c1.setSelected(true);
-                    }
-                }
+                testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {if (answers.get(q).contains(button.getText())){button.setSelected(true);};});
             }
         }
-        
         else if(q.abbreviation.equals("MA")){
+            MAanswerLabel.setVisible(true) ;
+            MCanswerLabel.setVisible(false) ;
+            TFanswerLabel.setVisible(false) ;
+            FIBanswerLabel.setVisible(false) ;
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             unselectCheckBoxes(checkBoxGroup);
             setButtonsVisible(checkBoxGroup);
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
-            testFIB.setVisible(false);
+            fibAnswerBlank.setVisible(false);
             HashMap<Question,ArrayList<String>> answers = this.getAnswers(q, checkBoxGroup);
             if (answers.get(q)!=null){
             for (int i=0;i<checkBoxGroup.size();i++){
@@ -279,13 +296,17 @@ public class TestController implements Initializable {
             }
         }
         else if(q.abbreviation.equals("TF")){
+            TFanswerLabel.setVisible(true);
+            MAanswerLabel.setVisible(false) ;
+            MCanswerLabel.setVisible(false) ;
+            FIBanswerLabel.setVisible(false) ;
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             unselectCheckBoxes(checkBoxGroup);
             setButtonsInvisible(checkBoxGroup);
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(true);});
-            testFIB.setVisible(false);
+            fibAnswerBlank.setVisible(false);
             HashMap<Question,ArrayList<String>> answers = this.getAnswers(q, trueFalseGroup);
             if (answers.get(q)!=null){
                 testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {if (answers.get(q).contains(button.getText())){button.setSelected(true);};});
@@ -293,14 +314,18 @@ public class TestController implements Initializable {
 
         }
         else if(q.abbreviation.equals("FIB")){
+            FIBanswerLabel.setVisible(true);
+            MAanswerLabel.setVisible(false) ;
+            TFanswerLabel.setVisible(false) ;
+            MCanswerLabel.setVisible(false) ;
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setSelected(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
             unselectCheckBoxes(checkBoxGroup);
             setButtonsInvisible(checkBoxGroup);
             testTGRB.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
             testTGRBTF.getToggles().stream().map((toggle) -> (ToggleButton)toggle).forEach((button) -> {button.setVisible(false);});
-            testFIB.clear();
-            testFIB.setVisible(true);
+            fibAnswerBlank.clear();
+            fibAnswerBlank.setVisible(true);
             HashMap<Question,ArrayList<String>> answers = this.getAnswers(q, fillInTheBlankGroup);
             if (answers.get(q)!=null){
                 for (int i=0;i<fillInTheBlankGroup.size();i++){
@@ -313,21 +338,6 @@ public class TestController implements Initializable {
         }
     }
     
-    @FXML
-    public void handleResetAction(MouseEvent event) throws IOException, SQLException {
-        //Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        System.out.println(quiz.questions.get(1).description);
-        testTextArea.setText("Hello");
-        testTextArea.setText(this.difficultyLevel);
-        //Stage stage = (Stage) reset.getScene().getWindow();
-        //Scene scene = new Scene(root);
-        //stage.setScene(scene);
-        //stage.show();
-        //testTG.selectToggle(testTG.getSelectedToggle());
-        
-        
-        
-    }
     
     @FXML
     public void handleNextAction(MouseEvent event){
@@ -335,7 +345,7 @@ public class TestController implements Initializable {
         currentQuestionCount+=1;
         setPrevNextButton(currentQuestionCount);
         if (currentQuestionCount<=numberOfQuestions){
-            testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
+            testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);            
             setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(currentQuestionCount-1).answerChoices);            
             getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         }
@@ -347,7 +357,7 @@ public class TestController implements Initializable {
         currentQuestionCount-=1;
         setPrevNextButton(currentQuestionCount);
         if (currentQuestionCount<=numberOfQuestions){
-            testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
+            testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);            
             setAnswerOptions(getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation),quiz.questions.get(currentQuestionCount-1).answerChoices);            
             getOptionsPane(quiz.questions.get(currentQuestionCount-1));
         }
@@ -358,18 +368,15 @@ public class TestController implements Initializable {
         
     }
     
-    @FXML
     public void setAnswers(Question q, ArrayList<Control> B){
         this.quiz.getResult().getAnswers().put(q,getSelectedAnswerChoices(B) );
         
     }
     
-    @FXML
     public HashMap<Question,ArrayList<String>> getAnswers(Question q, ArrayList<Control> B){
         return this.quiz.getResult().getAnswers();
     }
 
-    @FXML
     public ArrayList<String> getSelectedAnswerChoices(ArrayList<Control> B){
         ArrayList<String> answers = new ArrayList();
         for (int i=0;i<B.size();i++){
@@ -402,19 +409,17 @@ public class TestController implements Initializable {
         return answers;
     }
 
-    @FXML
+  @FXML
     public void handleSubmitAction(MouseEvent event){
         setAnswers(quiz.questions.get(currentQuestionCount-1),getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation));
         List<Question> questionObjects = new ArrayList<>();
         ArrayList<ArrayList<String>> value = new ArrayList();
         for (Map.Entry<Question, ArrayList<String>> entry : quiz.getResult().getAnswers().entrySet()) {
             questionObjects.add(entry.getKey());
-//                String key = entry.getKey();
             value.add(entry.getValue());
         }
         
         quiz.insertResults(questionObjects, value);
         
     }
-    
 }

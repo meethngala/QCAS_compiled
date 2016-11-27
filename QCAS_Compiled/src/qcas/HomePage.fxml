@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,23 +10,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="538.0" prefWidth="600.0" style="-fx-background-color: #eef7f3;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="qcas.HomePageController">
+<AnchorPane id="AnchorPane" prefHeight="529.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.HomePageController">
    <children>
-      <Label layoutX="122.0" layoutY="48.0" prefHeight="53.0" prefWidth="390.0" style="-fx-background-color: #ADD8E6;" text="Welcome to QCAS">
-         <font>
-            <Font name="Arial Black" size="36.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="233.0" fitWidth="200.0" layoutX="191.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="backgroundImage" fitHeight="529.0" fitWidth="607.0" layoutX="9.0" opacity="0.63">
          <image>
-            <Image url="@../images/Phil_login.png" />
+            <Image url="@../images/matrix-1274888_960_720.png" />
          </image>
       </ImageView>
-      <Button id="loginButton" fx:id="loginButton" layoutX="245.0" layoutY="440.0" mnemonicParsing="false" onMouseClicked="#handleLoginAction" prefHeight="32.0" prefWidth="109.0" text="Login">
+      <Label layoutX="49.0" layoutY="174.0" prefHeight="98.0" prefWidth="570.0" text="Welcome to QCAS">
          <font>
-            <Font name="Arial Black" size="16.0" />
+            <Font name="Bauhaus 93" size="64.0" />
          </font>
-      </Button>
+      </Label>
+      <ImageView fx:id="loginImage" fitHeight="44.0" fitWidth="118.0" layoutX="237.0" layoutY="298.0" onMouseClicked="#handleLoginAction">
+         <image>
+            <Image url="@../images/login-button-png-4.jpg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="4.0" layoutY="6.0" prefHeight="148.0" prefWidth="615.0">
+         <children>
+            <ImageView fitHeight="103.0" fitWidth="174.0" layoutX="20.0" layoutY="14.0">
+               <image>
+                  <Image url="@../images/CMU-logo-stacked-black.png" />
+               </image>
+            </ImageView>
+            <Line endX="100.0" layoutX="107.0" layoutY="117.0" startX="-100.0" />
+            <Line endX="100.0" layoutX="308.0" layoutY="117.0" startX="-100.0" />
+            <Line endX="100.0" layoutX="510.0" layoutY="117.0" startX="-100.0" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

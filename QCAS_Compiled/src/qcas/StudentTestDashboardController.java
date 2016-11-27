@@ -71,10 +71,7 @@ public class StudentTestDashboardController implements Initializable {
        
        RB1.setToggleGroup(studentTG);
        RB2.setToggleGroup(studentTG);
-       RB3.setToggleGroup(studentTG);
-       
-
-       
+       RB3.setToggleGroup(studentTG);      
     }    
     @FXML
     private void goToTest(MouseEvent event) throws IOException, SQLException {       
@@ -100,7 +97,7 @@ public class StudentTestDashboardController implements Initializable {
         
     }
     
-   @FXML
+    @FXML
     private void goBack() throws IOException 
     {
         Parent root = FXMLLoader.load(getClass().getResource("StudentAction.fxml"));
@@ -119,5 +116,4 @@ public class StudentTestDashboardController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
     }
-    
 }

@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -28,15 +29,18 @@ public class HomePageController implements Initializable {
      * Initializes the controller class.
      */
     @FXML 
-    private Button loginButton;
+    private ImageView loginImage;
+    @FXML 
+    private ImageView backgroundImage ;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
         @FXML
     private void handleLoginAction(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Stage stage = (Stage) loginButton.getScene().getWindow();
+        Stage stage = (Stage) loginImage.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
