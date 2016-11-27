@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -51,12 +52,12 @@ public class Quiz {
      * @throws IOException
      * @throws SQLException
      */
-    public Quiz(String Filepath, String difficultyLevel, int numberOfQuestions, String url, String username, String password, Double percentMAQuestions, Double percentMCQuestions, Double percentFIBQuestions, Double percentTFQuestions) throws IOException, SQLException {
+    public Quiz(String difficultyLevel, int numberOfQuestions, String url, String username, String password, Double percentMAQuestions, Double percentMCQuestions, Double percentFIBQuestions, Double percentTFQuestions) throws IOException, SQLException {
         connection = new databaseConnection(url, username, password);
         stmt = connection.con.createStatement();
         setDifficultyLevel(difficultyLevel);
         setNumberOfQuestions(numberOfQuestions);
-        setQuestions(Filepath, percentMAQuestions, percentMCQuestions, percentFIBQuestions, percentTFQuestions);
+        setQuestions(percentMAQuestions, percentMCQuestions, percentFIBQuestions, percentTFQuestions);
         //conductQuiz();
     }
 
@@ -76,46 +77,47 @@ public class Quiz {
      * @throws IOException
      * @throws SQLException
      */
-    public void setQuestions(String Filepath, Double percentMAQuestions, Double percentMCQuestions, Double percentFIBQuestions, Double percentTFQuestions) throws IOException, SQLException {
+    public void setQuestions(Double percentMAQuestions, Double percentMCQuestions, Double percentFIBQuestions, Double percentTFQuestions) throws IOException, SQLException {
         try {
-            InputFileReader reader = new InputFileReader(); //reader object to read from the input file
-            reader.readFile(Filepath); //reading the file containing quiz questions
-            List<String[]> questionDetails = reader.wordsArray; // Each string from the csv file is stored in an ArrayList
-            ArrayList<String> insertQueries = new ArrayList();
-            int mastercounter = 0;
+//            InputFileReader reader = new InputFileReader(); //reader object to read from the input file
+//            reader.readFile(Filepath); //reading the file containing quiz questions
+//            List<String[]> questionDetails = reader.wordsArray; // Each string from the csv file is stored in an ArrayList
+//            ArrayList<String> insertQueries = new ArrayList();
+//            int mastercounter = 0;
             // Dropping the table if already present
 //            String createQueryTest = "CREATE TABLE QCASRohan.TEST"
 //                + "("
 //                + "Abbreviation VARCHAR(30000)" + ")";
 //            stmt.execute(createQueryTest);
             // Inserting question details from the csv file words array into the insert String to be run to store values in a database
-            for (int j = 0; j < questionDetails.size(); j++) {
-                String countQuery = "select count(*) as count from QCASRohan.QUESTION";
-                preparedStmt = connection.con.prepareStatement(countQuery);
-                ResultSet rsc = preparedStmt.executeQuery();
-
-                while (rsc.next()) {
-                    mastercounter = rsc.getInt("count");
-                }
-                String insertString = "INSERT INTO QCASRohan.QUESTION VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-                preparedStmt = connection.con.prepareStatement(insertString);
+//            for (int j = 0; j < questionDetails.size(); j++) {
+//                String countQuery = "select count(*) as count from QCASRohan.QUESTION";
+//                preparedStmt = connection.con.prepareStatement(countQuery);
+//                ResultSet rsc = preparedStmt.executeQuery();
+//
+//                while (rsc.next()) {
+//                    mastercounter = rsc.getInt("count");
+//                }
+//                String insertString = "INSERT INTO QCASRohan.QUESTION VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+//                preparedStmt = connection.con.prepareStatement(insertString);
 //                for (int j = 0; j < questionDetails.get(i).length; j++) {
 //                    preparedStmt.setString(j+1, questionDetails.get(i)[j]);
 //                }
-//                preparedStmt
-                for (int i = 0; i < questionDetails.get(j).length; i++) {
-                    preparedStmt.setString(i + 1, questionDetails.get(j)[i]);
-                }
-                for (int k = questionDetails.get(j).length; k < 11; k++) {
-                    preparedStmt.setString(k + 1, "");
-                }
-                mastercounter += 1;
-                preparedStmt.setString(12, "" + mastercounter);
+////                preparedStmt
+//                for (int i = 0; i < questionDetails.get(j).length; i++) {
+//                    preparedStmt.setString(i + 1, questionDetails.get(j)[i]);
+//                }
+//                for (int k = questionDetails.get(j).length; k < 11; k++) {
+//                    preparedStmt.setString(k + 1, "");
+//                }
+//                mastercounter += 1;
+//                preparedStmt.setString(12, "" + mastercounter);
 //                int counting = preparedStmt.executeUpdate();
 
 //                preparedStmt.executeUpdate();
-            }
-
+//            }
+            
+            
             int numberMAQuestions = (int) (percentMAQuestions * numberOfQuestions);
             int numberMCQuestions = (int) (percentMCQuestions * numberOfQuestions);
             int numberFIBQuestions = (int) (percentFIBQuestions * numberOfQuestions);
@@ -127,10 +129,39 @@ public class Quiz {
             String query = "SELECT * FROM QCASRohan.QUESTION WHERE DIFFICULTYLEVEL = ?"
                     + " AND QUESTIONTYPE = ?"
                     + " ORDER BY RAND()";
-            Integer answer = 0;
             preparedStmt = connection.con.prepareStatement(query); //Using prepared statement to make connection 
             preparedStmt.setString(1, difficultyLevel);
             preparedStmt.setString(2, "MA");
+            String mixedQuery = "(SELECT * FROM QCASRohan.QUESTION " +
+                                "WHERE DIFFICULTYLEVEL = ? " +
+                                "AND QUESTIONTYPE = ? " +
+                                "ORDER BY RAND() " +
+                                "LIMIT ? )" +
+                                "UNION " +
+                                "(SELECT * FROM QCASRohan.QUESTION  " +
+                                "WHERE DIFFICULTYLEVEL = ? " +
+                                "AND QUESTIONTYPE = ? " +
+                                "ORDER BY RAND() " +
+                                "LIMIT ? )" +
+                                "UNION " +
+                                "(SELECT * FROM QCASRohan.QUESTION  " +
+                                "WHERE DIFFICULTYLEVEL = ? " +
+                                "AND QUESTIONTYPE = ? " +
+                                "ORDER BY RAND() " +
+                                "LIMIT ? )";
+            if (difficultyLevel.equals("MI")){
+            preparedStmt = connection.con.prepareStatement(mixedQuery);
+            preparedStmt.setString(1, "E");
+            preparedStmt.setString(2, "MA");
+            preparedStmt.setInt(3,(numberMAQuestions /3));
+            preparedStmt.setString(4, "M");
+            preparedStmt.setString(5, "MA");
+            preparedStmt.setInt(6,(numberMAQuestions /3));
+            preparedStmt.setString(7, "H");
+            preparedStmt.setString(8, "MA");
+            preparedStmt.setInt(9,(int) (numberMAQuestions - (2/3) * numberMAQuestions));
+            }
+            Integer answer = 0;
             ResultSet rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberMAQuestions) {
                 HashMap answerChoices = new HashMap(); //
@@ -148,6 +179,18 @@ public class Quiz {
             }
             questionCounter = 0;
             preparedStmt.setString(2, "MC");
+            if (difficultyLevel.equals("MI")){
+            preparedStmt = connection.con.prepareStatement(mixedQuery);
+            preparedStmt.setString(1, "E");
+            preparedStmt.setString(2, "MC");
+            preparedStmt.setInt(3,(int) (numberMCQuestions /3));
+            preparedStmt.setString(4, "M");
+            preparedStmt.setString(5, "MC");
+            preparedStmt.setInt(6,(int) (numberMCQuestions /3));
+            preparedStmt.setString(7, "H");
+            preparedStmt.setString(8, "MC");
+            preparedStmt.setInt(9,(int) (numberMCQuestions - (2/3) * numberMCQuestions));
+            }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberMCQuestions) {
                 HashMap<String, String> answerChoices = new HashMap<String, String>(); //
@@ -165,6 +208,18 @@ public class Quiz {
             }
             questionCounter = 0;
             preparedStmt.setString(2, "TF");
+            if (difficultyLevel.equals("MI")){
+            preparedStmt = connection.con.prepareStatement(mixedQuery);
+            preparedStmt.setString(1, "E");
+            preparedStmt.setString(2, "TF");
+            preparedStmt.setInt(3,(int) (numberTFQuestions /3));
+            preparedStmt.setString(4, "M");
+            preparedStmt.setString(5, "TF");
+            preparedStmt.setInt(6,(int) (numberTFQuestions /3));
+            preparedStmt.setString(7, "H");
+            preparedStmt.setString(8, "TF");
+            preparedStmt.setInt(9,(int) (numberTFQuestions - (2/3) * numberTFQuestions));
+            }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberTFQuestions) {
                 HashMap answerChoices = new HashMap(); //
@@ -182,6 +237,18 @@ public class Quiz {
             }
             questionCounter = 0;
             preparedStmt.setString(2, "FIB");
+            if (difficultyLevel.equals("MI")){
+            preparedStmt = connection.con.prepareStatement(mixedQuery);
+            preparedStmt.setString(1, "E");
+            preparedStmt.setString(2, "FIB");
+            preparedStmt.setInt(3,(int) (numberFIBQuestions /3));
+            preparedStmt.setString(4, "M");
+            preparedStmt.setString(5, "FIB");
+            preparedStmt.setInt(6,(int) (numberFIBQuestions /3));
+            preparedStmt.setString(7, "H");
+            preparedStmt.setString(8, "FIB");
+            preparedStmt.setInt(9,(int) (numberFIBQuestions - (2/3) * numberFIBQuestions));
+            }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberFIBQuestions) {
                 HashMap answerChoices = new HashMap(); //
@@ -198,7 +265,9 @@ public class Quiz {
                 Question question = new FillInTheBlank(rs.getString("QUESTIONTYPE"), rs.getString("DIFFICULTYLEVEL"), rs.getString("DESCRIPTION"), answerChoices, answer, rs.getInt("pk_column")); //Creating a question object out of the information stored in the database
                 this.questions.add(question); // Adding the question to the questions set of this quiz
                 questionCounter += 1;
+            
             }
+        Collections.shuffle(questions);
         } catch (SQLException e) {
             System.out.println(e + "Connection Not Established"); // Error Handling: Handling the error in case SQL query does not execute
         }
@@ -268,18 +337,7 @@ public class Quiz {
 //                String key = entry.getKey();
             value.add(entry.getValue());
         }
-
-//        System.out.println(questionObjects.size());
-//        System.out.println(questionObjects.get(0).questionNumber);
-//        System.out.println(questionObjects.get(1).questionNumber);
-//        System.out.println(questionObjects.get(2).questionNumber);
-//        System.out.println(questionObjects.get(3).questionNumber);
-//
-//        System.out.println(value.get(0));
-//        System.out.println(value.get(1));
-//        System.out.println(value.get(2));
-//        System.out.println(value.get(3));
-        insertResults(questionObjects, value);
+       insertResults(questionObjects, value);
 
     }
 

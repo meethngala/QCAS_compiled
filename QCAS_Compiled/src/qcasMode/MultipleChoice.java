@@ -18,4 +18,17 @@ public class MultipleChoice extends Question {
     public MultipleChoice(String abbreviation, String difficulty, String description, HashMap answerChoices, Integer answer, int questionNumber) {
         super(abbreviation, difficulty, description, answerChoices, answer, questionNumber);
     }
+
+    @Override
+    boolean checkValidity(ArrayList<String> ans) {
+        boolean check = true;
+        for (int i = 0; i < ans.size(); i++) {
+            if (answerChoices.get(ans.get(i)).equals("incorrect")) {
+                check = false;
+            }
+        }
+        return check;
+    }
+    
+    
 }

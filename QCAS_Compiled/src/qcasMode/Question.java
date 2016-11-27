@@ -123,57 +123,7 @@ public class Question {
     }
 
     boolean checkValidity(ArrayList<String> ans) {
-
-        int question_type = 0;
-        if (abbreviation.equals("MA")) {
-            question_type = 1;
-        } else if (abbreviation.equals("MC")) {
-            question_type = 2;
-        } else if (abbreviation.equals("TF")) {
-            question_type = 3;
-        } else if (abbreviation.equals("FIB")) {
-            question_type = 4;
-        }
         boolean check = true;
-
-        switch (question_type) {
-            case 1:
-
-                for (int i = 0; i < ans.size(); i++) {
-                    System.out.println(ans.size());
-                    System.out.println(i + "  " + answerChoices.size());
-                    if (answerChoices.get(ans.get(i)).equals("incorrect")) {
-                        check = false;
-                    }
-                }
-                break;
-            case 2:
-
-                for (int i = 0; i < ans.size(); i++) {
-
-                    System.out.println(ans.size());
-                    System.out.println(i + "  " + answerChoices.size());
-                    if (answerChoices.get(ans.get(i)).equals("incorrect")) {
-                        check = false;
-                    }
-                }
-            case 3:
-
-                System.out.println(ans.size());
-
-                System.out.println(answerChoices.size());
-                ans.get(0).equals(answerChoices.keySet().toArray()[0].toString());
-                check = false;
-
-                break;
-            case 4:
-
-                System.out.println(ans.size());
-                ans.get(0).equals(answerChoices.keySet().toArray()[0].toString());
-                check = false;
-                break;
-        }
-
         return check;
     }
 

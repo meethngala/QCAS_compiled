@@ -19,5 +19,11 @@ public class TrueFalse extends Question {
         super(abbreviation, difficulty, description, answerChoices, answer,questionNumber);
     }
     
+    boolean checkValidity(ArrayList<String> ans) {
+        boolean check = true;
+        if(ans.get(0).equals(answerChoices.keySet().toArray()[0].toString())){
+        check = false;}
+        return check;
+    }
     
 }

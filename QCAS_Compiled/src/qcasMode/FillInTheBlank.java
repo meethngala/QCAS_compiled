@@ -18,6 +18,14 @@ public class FillInTheBlank extends Question {
     public FillInTheBlank(String abbreviation, String difficulty, String description, HashMap answerChoices, Integer answer, int questionNumber) {
         super(abbreviation, difficulty, description, answerChoices, answer, questionNumber);
     }
+
+    @Override
+    boolean checkValidity(ArrayList<String> ans) {
+        boolean check = true;
+        if(ans.get(0).equals(answerChoices.keySet().toArray()[0].toString())){
+        check = false;}
+        return check;
+    }
     
     
 }
