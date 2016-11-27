@@ -32,6 +32,10 @@ public class databaseConnection {
         this.con = con;
     }
     
+    public Connection getConnection(){
+        return this.con;
+    }
+    
     
     
     
