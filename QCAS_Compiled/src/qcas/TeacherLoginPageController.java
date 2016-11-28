@@ -22,7 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import qcasMode.databaseConnection;
+import qcasMode.*;
 
 /**
  * FXML Controller class
@@ -45,6 +45,7 @@ private TextField password;
 
 @FXML
 private Label WrongCredLabel ;
+private Teacher teacher;
     /**
      * Initializes the controller class.
      */
@@ -76,6 +77,12 @@ private Label WrongCredLabel ;
             }            
             else   // if the username exists
             {
+                checkQuery = "SELECT FirstName, LastName FROM QCASRohan.TEACHER WHERE INSTRUCTOR_ID ='" + userNameToCheck + "' AND PASSWORD='" + pw + "'";
+                rs = stmt.executeQuery(checkQuery);
+                while(rs.next()){
+                    Teacher teacher = new Teacher(userNameToCheck, pw,rs.getString("FirstName"),rs.getString("LastName"));
+                }
+                setTeacher(teacher);
                 Parent root = FXMLLoader.load(getClass().getResource("TeacherAction.fxml"));
                 Stage stage = (Stage) LoginButton.getScene().getWindow();
                 Scene scene = new Scene(root);
@@ -97,5 +104,10 @@ private Label WrongCredLabel ;
                 stage.setScene(scene);
                 stage.show();
     }
+    
+    public void setTeacher (Teacher teacher) {
+        this.teacher = teacher;
+    }
+
     
 }

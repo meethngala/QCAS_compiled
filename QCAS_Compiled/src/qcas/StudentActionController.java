@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import qcasMode.*;
 
 /**
  * FXML Controller class
@@ -34,14 +35,18 @@ public class StudentActionController implements Initializable {
     
     @FXML
     private Button LogoutButton;
-    
+    private Student student;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
     @FXML
     private void goToTestOptions(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("StudentTestDashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("StudentTestDashboard.fxml"));
+        Parent root = (Parent) loader.load();
+        StudentTestDashboardController studentTestDashboardController = loader.<StudentTestDashboardController> getController();
+        studentTestDashboardController.setStudent(student);
         Stage stage = (Stage) quizImage.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -56,6 +61,10 @@ public class StudentActionController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public void setStudent(Student student) {
+        this.student = student;
     }
     
 

@@ -50,6 +50,7 @@
             <Image url="@../images/red-cmu-display.jpg" />
          </image>
       </ImageView>
+      <RadioButton fx:id="RB4" layoutX="43.0" layoutY="371.0" mnemonicParsing="false" text="Mixed" />
    </children>
    <stylesheets>
       <URL value="@studentdashboard.css" />

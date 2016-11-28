@@ -103,10 +103,13 @@ public class TestController implements Initializable {
     public static int maxTime;
     @FXML
     private TextArea TimerTextArea ;
-    private Label timeupLabel ;
-    private Label continueButton ;
+    private Label timeupLabel ; // Change to incorporate Time Up Pop Up
+    private Label continueButton ; // Incorporate into FXML
     @FXML
     private TextField fibAnswerBlank;
+    private Student student;
+    @FXML
+    private Button submitButton;
    
 
     public TestController() throws IOException, SQLException {
@@ -115,7 +118,7 @@ public class TestController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    public TestController initialize(String difficultyLevelString,int numberOfQuestion) throws IOException, SQLException {
+    public TestController initialize(String difficultyLevelString,int numberOfQuestion,  Student student) throws IOException, SQLException {
         testRB1.setToggleGroup(testTGRB);
         testRB2.setToggleGroup(testTGRB);
         testRB3.setToggleGroup(testTGRB);
@@ -136,6 +139,7 @@ public class TestController implements Initializable {
         testTextArea.setWrapText(true) ;
         setDifficultyLevel(difficultyLevelString);
         setNumberOfQuestions(numberOfQuestion);
+        setStudent(student);
         this.quiz = new Quiz(difficultyLevel,numberOfQuestions, "jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest", 0.25, 0.25,0.25, 0.25);
         currentQuestionCount += 1;
         testTextArea.setText(quiz.questions.get(currentQuestionCount-1).description);
@@ -145,7 +149,7 @@ public class TestController implements Initializable {
         
         
         //Timer 
-        secs=(numberOfQuestion*60)+1;
+        secs=(numberOfQuestion*5)+1;
         final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleWithFixedDelay(new Runnable()
         {
@@ -410,7 +414,7 @@ public class TestController implements Initializable {
     }
 
   @FXML
-    public void handleSubmitAction(MouseEvent event){
+    public void handleSubmitAction(MouseEvent event) throws IOException{
         setAnswers(quiz.questions.get(currentQuestionCount-1),getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation));
         List<Question> questionObjects = new ArrayList<>();
         ArrayList<ArrayList<String>> value = new ArrayList();
@@ -419,7 +423,21 @@ public class TestController implements Initializable {
             value.add(entry.getValue());
         }
         
-        quiz.insertResults(questionObjects, value);
-        
+        quiz.insertResults(questionObjects, value,"jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest",student);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("StudentTestResult.fxml"));
+        Parent root = (Parent) loader.load();
+        StudentTestResultController studentTestResultController = loader.<StudentTestResultController> getController();
+        studentTestResultController.setQuiz(quiz);
+        studentTestResultController.getChart();
+        Stage stage = (Stage) submitButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    
+    }
+
+    private void setStudent(Student student) {
+        this.student = student;
     }
 }

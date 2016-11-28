@@ -63,7 +63,7 @@
                </font>
             </Hyperlink>
             <FlowPane layoutX="388.0" layoutY="262.0" prefHeight="25.0" prefWidth="89.0" visible="false" />
-            <Button layoutX="464.0" layoutY="309.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit Test" />
+            <Button fx:id="submitButton" layoutX="464.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#handleSubmitAction" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit Test" />
             <TextField fx:id="fibAnswerBlank" layoutX="201.0" layoutY="136.0" promptText="Enter answer here" />
          </children>
       </AnchorPane>

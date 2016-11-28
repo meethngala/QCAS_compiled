@@ -70,7 +70,6 @@ public class SignupPageController implements Initializable {
     
     @FXML
     private PasswordField password2 ;
-    
     /**
      * Initializes the controller class.
      */

@@ -22,7 +22,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+import qcasMode.*;
 /**
  * FXML Controller class
  *
@@ -35,11 +35,9 @@ public class StudentTestDashboardController implements Initializable {
     private Button LogoutButton ;
     @FXML
     private Button BackButton;
-    @FXML
     String difficultyLevel;
     @FXML
     private ComboBox studentTComboBox;
-    @FXML
     int numberOfQuestions;
     @FXML 
     private RadioButton RB1;
@@ -49,11 +47,11 @@ public class StudentTestDashboardController implements Initializable {
     private RadioButton RB3;
     @FXML
     private ToggleGroup studentTG;
-    @FXML
     TestController t;
-    @FXML
     private ObservableList comboData = FXCollections.observableArrayList();
-        
+    @FXML
+    private RadioButton RB4;
+    private Student student;
         
     public StudentTestDashboardController() throws IOException, SQLException{
 
@@ -87,8 +85,11 @@ public class StudentTestDashboardController implements Initializable {
        if(RB3.isSelected()){
            difficultyLevel= "H";
        }
+       if(RB4.isSelected()){
+           difficultyLevel= "MI";
+       }
         Parent root = (Parent) loader.load();
-        TestController testController = loader.<TestController> getController().initialize(difficultyLevel, numberOfQuestions);
+        TestController testController = loader.<TestController> getController().initialize(difficultyLevel, numberOfQuestions,student);
         Stage stage = (Stage) startTestButton.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -116,4 +117,9 @@ public class StudentTestDashboardController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
     }
+    
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
 }
