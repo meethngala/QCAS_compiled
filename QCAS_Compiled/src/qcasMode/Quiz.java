@@ -57,7 +57,8 @@ public class Quiz {
         stmt = connection.con.createStatement();
         setDifficultyLevel(difficultyLevel);
         setNumberOfQuestions(numberOfQuestions);
-        setQuestions(percentMAQuestions, percentMCQuestions, percentFIBQuestions, percentTFQuestions);
+        setQuizNumber();
+        setQuestions(percentMAQuestions, percentMCQuestions, percentFIBQuestions, percentTFQuestions,url,username,password);
         //conductQuiz();
     }
 
@@ -77,7 +78,7 @@ public class Quiz {
      * @throws IOException
      * @throws SQLException
      */
-    public void setQuestions(Double percentMAQuestions, Double percentMCQuestions, Double percentFIBQuestions, Double percentTFQuestions) throws IOException, SQLException {
+    public void setQuestions(Double percentMAQuestions, Double percentMCQuestions, Double percentFIBQuestions, Double percentTFQuestions,String url, String username, String password) throws IOException, SQLException {
         try {
 //            InputFileReader reader = new InputFileReader(); //reader object to read from the input file
 //            reader.readFile(Filepath); //reading the file containing quiz questions
@@ -116,8 +117,6 @@ public class Quiz {
 
 //                preparedStmt.executeUpdate();
 //            }
-            
-            
             int numberMAQuestions = (int) (percentMAQuestions * numberOfQuestions);
             int numberMCQuestions = (int) (percentMCQuestions * numberOfQuestions);
             int numberFIBQuestions = (int) (percentFIBQuestions * numberOfQuestions);
@@ -132,34 +131,34 @@ public class Quiz {
             preparedStmt = connection.con.prepareStatement(query); //Using prepared statement to make connection 
             preparedStmt.setString(1, difficultyLevel);
             preparedStmt.setString(2, "MA");
-            String mixedQuery = "(SELECT * FROM QCASRohan.QUESTION " +
-                                "WHERE DIFFICULTYLEVEL = ? " +
-                                "AND QUESTIONTYPE = ? " +
-                                "ORDER BY RAND() " +
-                                "LIMIT ? )" +
-                                "UNION " +
-                                "(SELECT * FROM QCASRohan.QUESTION  " +
-                                "WHERE DIFFICULTYLEVEL = ? " +
-                                "AND QUESTIONTYPE = ? " +
-                                "ORDER BY RAND() " +
-                                "LIMIT ? )" +
-                                "UNION " +
-                                "(SELECT * FROM QCASRohan.QUESTION  " +
-                                "WHERE DIFFICULTYLEVEL = ? " +
-                                "AND QUESTIONTYPE = ? " +
-                                "ORDER BY RAND() " +
-                                "LIMIT ? )";
-            if (difficultyLevel.equals("MI")){
-            preparedStmt = connection.con.prepareStatement(mixedQuery);
-            preparedStmt.setString(1, "E");
-            preparedStmt.setString(2, "MA");
-            preparedStmt.setInt(3,(numberMAQuestions /3));
-            preparedStmt.setString(4, "M");
-            preparedStmt.setString(5, "MA");
-            preparedStmt.setInt(6,(numberMAQuestions /3));
-            preparedStmt.setString(7, "H");
-            preparedStmt.setString(8, "MA");
-            preparedStmt.setInt(9,(int) (numberMAQuestions - (2/3) * numberMAQuestions));
+            String mixedQuery = "(SELECT * FROM QCASRohan.QUESTION "
+                    + "WHERE DIFFICULTYLEVEL = ? "
+                    + "AND QUESTIONTYPE = ? "
+                    + "ORDER BY RAND() "
+                    + "LIMIT ? )"
+                    + "UNION "
+                    + "(SELECT * FROM QCASRohan.QUESTION  "
+                    + "WHERE DIFFICULTYLEVEL = ? "
+                    + "AND QUESTIONTYPE = ? "
+                    + "ORDER BY RAND() "
+                    + "LIMIT ? )"
+                    + "UNION "
+                    + "(SELECT * FROM QCASRohan.QUESTION  "
+                    + "WHERE DIFFICULTYLEVEL = ? "
+                    + "AND QUESTIONTYPE = ? "
+                    + "ORDER BY RAND() "
+                    + "LIMIT ? )";
+            if (difficultyLevel.equals("MI")) {
+                preparedStmt = connection.con.prepareStatement(mixedQuery);
+                preparedStmt.setString(1, "E");
+                preparedStmt.setString(2, "MA");
+                preparedStmt.setInt(3, (numberMAQuestions / 3));
+                preparedStmt.setString(4, "M");
+                preparedStmt.setString(5, "MA");
+                preparedStmt.setInt(6, (numberMAQuestions / 3));
+                preparedStmt.setString(7, "H");
+                preparedStmt.setString(8, "MA");
+                preparedStmt.setInt(9, (int) (numberMAQuestions - (2 / 3) * numberMAQuestions));
             }
             Integer answer = 0;
             ResultSet rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
@@ -179,17 +178,17 @@ public class Quiz {
             }
             questionCounter = 0;
             preparedStmt.setString(2, "MC");
-            if (difficultyLevel.equals("MI")){
-            preparedStmt = connection.con.prepareStatement(mixedQuery);
-            preparedStmt.setString(1, "E");
-            preparedStmt.setString(2, "MC");
-            preparedStmt.setInt(3,(int) (numberMCQuestions /3));
-            preparedStmt.setString(4, "M");
-            preparedStmt.setString(5, "MC");
-            preparedStmt.setInt(6,(int) (numberMCQuestions /3));
-            preparedStmt.setString(7, "H");
-            preparedStmt.setString(8, "MC");
-            preparedStmt.setInt(9,(int) (numberMCQuestions - (2/3) * numberMCQuestions));
+            if (difficultyLevel.equals("MI")) {
+                preparedStmt = connection.con.prepareStatement(mixedQuery);
+                preparedStmt.setString(1, "E");
+                preparedStmt.setString(2, "MC");
+                preparedStmt.setInt(3, (int) (numberMCQuestions / 3));
+                preparedStmt.setString(4, "M");
+                preparedStmt.setString(5, "MC");
+                preparedStmt.setInt(6, (int) (numberMCQuestions / 3));
+                preparedStmt.setString(7, "H");
+                preparedStmt.setString(8, "MC");
+                preparedStmt.setInt(9, (int) (numberMCQuestions - (2 / 3) * numberMCQuestions));
             }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberMCQuestions) {
@@ -208,17 +207,17 @@ public class Quiz {
             }
             questionCounter = 0;
             preparedStmt.setString(2, "TF");
-            if (difficultyLevel.equals("MI")){
-            preparedStmt = connection.con.prepareStatement(mixedQuery);
-            preparedStmt.setString(1, "E");
-            preparedStmt.setString(2, "TF");
-            preparedStmt.setInt(3,(int) (numberTFQuestions /3));
-            preparedStmt.setString(4, "M");
-            preparedStmt.setString(5, "TF");
-            preparedStmt.setInt(6,(int) (numberTFQuestions /3));
-            preparedStmt.setString(7, "H");
-            preparedStmt.setString(8, "TF");
-            preparedStmt.setInt(9,(int) (numberTFQuestions - (2/3) * numberTFQuestions));
+            if (difficultyLevel.equals("MI")) {
+                preparedStmt = connection.con.prepareStatement(mixedQuery);
+                preparedStmt.setString(1, "E");
+                preparedStmt.setString(2, "TF");
+                preparedStmt.setInt(3, (int) (numberTFQuestions / 3));
+                preparedStmt.setString(4, "M");
+                preparedStmt.setString(5, "TF");
+                preparedStmt.setInt(6, (int) (numberTFQuestions / 3));
+                preparedStmt.setString(7, "H");
+                preparedStmt.setString(8, "TF");
+                preparedStmt.setInt(9, (int) (numberTFQuestions - (2 / 3) * numberTFQuestions));
             }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberTFQuestions) {
@@ -237,17 +236,17 @@ public class Quiz {
             }
             questionCounter = 0;
             preparedStmt.setString(2, "FIB");
-            if (difficultyLevel.equals("MI")){
-            preparedStmt = connection.con.prepareStatement(mixedQuery);
-            preparedStmt.setString(1, "E");
-            preparedStmt.setString(2, "FIB");
-            preparedStmt.setInt(3,(int) (numberFIBQuestions /3));
-            preparedStmt.setString(4, "M");
-            preparedStmt.setString(5, "FIB");
-            preparedStmt.setInt(6,(int) (numberFIBQuestions /3));
-            preparedStmt.setString(7, "H");
-            preparedStmt.setString(8, "FIB");
-            preparedStmt.setInt(9,(int) (numberFIBQuestions - (2/3) * numberFIBQuestions));
+            if (difficultyLevel.equals("MI")) {
+                preparedStmt = connection.con.prepareStatement(mixedQuery);
+                preparedStmt.setString(1, "E");
+                preparedStmt.setString(2, "FIB");
+                preparedStmt.setInt(3, (int) (numberFIBQuestions / 3));
+                preparedStmt.setString(4, "M");
+                preparedStmt.setString(5, "FIB");
+                preparedStmt.setInt(6, (int) (numberFIBQuestions / 3));
+                preparedStmt.setString(7, "H");
+                preparedStmt.setString(8, "FIB");
+                preparedStmt.setInt(9, (int) (numberFIBQuestions - (2 / 3) * numberFIBQuestions));
             }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberFIBQuestions) {
@@ -265,9 +264,9 @@ public class Quiz {
                 Question question = new FillInTheBlank(rs.getString("QUESTIONTYPE"), rs.getString("DIFFICULTYLEVEL"), rs.getString("DESCRIPTION"), answerChoices, answer, rs.getInt("pk_column")); //Creating a question object out of the information stored in the database
                 this.questions.add(question); // Adding the question to the questions set of this quiz
                 questionCounter += 1;
-            
+
             }
-        Collections.shuffle(questions);
+            Collections.shuffle(questions);
         } catch (SQLException e) {
             System.out.println(e + "Connection Not Established"); // Error Handling: Handling the error in case SQL query does not execute
         }
@@ -277,7 +276,7 @@ public class Quiz {
      * Method that provides the user quiz questions and and takes their answer;
      * also counts the number of right and wrong answers
      */
-    public void conductQuiz() {
+    public void conductQuiz(String url, String username, String password, Student student) {
 
         Scanner input = new Scanner(System.in);
         Random rand = new Random();
@@ -337,14 +336,13 @@ public class Quiz {
 //                String key = entry.getKey();
             value.add(entry.getValue());
         }
-       insertResults(questionObjects, value);
+        insertResults(questionObjects, value,url,username,password,student);
 
     }
 
-    public void insertResults(List<Question> questionObjects, ArrayList<ArrayList<String>> value) {
+    public void insertResults(List<Question> questionObjects, ArrayList<ArrayList<String>> value, String url, String username, String password, Student student ) {
         try {
-            System.out.println("\n\n\n");
-            connection = new databaseConnection("jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest");
+            connection = new databaseConnection(url,username,password);
             stmt = connection.con.createStatement();
             String insertQuizQuestionQuery = "";
             int rightCount = 0;
@@ -352,17 +350,17 @@ public class Quiz {
             for (int i = 0; i < result.answers.size(); i++) {
                 if (questionObjects.get(i).checkValidity(value.get(i))) {
                     rightCount += 1;
-                    insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + "1" + "," + questionObjects.get(i).questionNumber + "," + "'correct');";
+                    insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + quizNumber + "," + questionObjects.get(i).questionNumber + "," + "'correct');";
                     stmt.executeUpdate(insertQuizQuestionQuery);
                 } else {
-                    insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + "1" + "," + questionObjects.get(i).questionNumber + "," + "'incorrect');";
+                    insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + quizNumber + "," + questionObjects.get(i).questionNumber + "," + "'incorrect');";
                     stmt.executeUpdate(insertQuizQuestionQuery);
                 }
             }
 
 //          
             stmt.execute(insertQuizQuestionQuery);
-            score = rightCount / numberOfQuestions;
+            score = (double) rightCount / (double) numberOfQuestions;
             if (score > 0.4) {
                 grade = "Pass";
             }
@@ -370,7 +368,7 @@ public class Quiz {
             Date date = new Date();
             System.out.println(dateFormat.format(date));
 
-            String resultQuery = "INSERT INTO QCASRohan.RESULTS VALUES(" + "'" + dateFormat.format(date) + "'," + "1" + "," + "'pariD'" + "," + score + ",'" + grade + "');";
+            String resultQuery = "INSERT INTO QCASRohan.RESULTS VALUES(" + "'" + dateFormat.format(date) + "'," + quizNumber + ",'" + student.id + "'," + score + ",'" + grade + "','" + difficultyLevel + "')";
             stmt.execute(resultQuery);
         } catch (java.util.InputMismatchException e) {
             System.out.println("Input Mismatch Exception: Please enter integers 1, 2 or 3");
@@ -387,7 +385,7 @@ public class Quiz {
     public void setNumberOfQuestions(int numberOfQuestions) {
         this.numberOfQuestions = numberOfQuestions;
     }
-    
+
     public Result getResult() {
         return this.result;
     }
@@ -436,8 +434,18 @@ public class Quiz {
         return quizNumber;
     }
 
-    public void setQuizNumber(int quizNumber) {
-        this.quizNumber = quizNumber;
+    public void setQuizNumber() {
+        try {
+            String countQuery = "Select Count(*) AS COUNT From (Select distinct QUIZID FROM QCASRohan.QUIZ_QUESTION) db;";
+            preparedStmt = connection.con.prepareStatement(countQuery);
+            ResultSet rsc = preparedStmt.executeQuery();
+            while (rsc.next()) {
+                this.quizNumber = rsc.getInt("COUNT")+1;
+            }    
+        } catch (SQLException e){
+            System.out.println("SQL Exception: " + e);
+        }
+        
     }
 
 }

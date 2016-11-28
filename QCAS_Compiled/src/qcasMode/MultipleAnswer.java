@@ -22,8 +22,10 @@ public class MultipleAnswer extends Question {
     public boolean checkValidity(ArrayList<String> ans) {
         boolean check = true;
         for (int i = 0; i < ans.size(); i++) {
-            if (answerChoices.get(ans.get(i)).equals("incorrect")) {
+            if (answerChoices.get(ans.get(i))!=null){
+                if (answerChoices.get(ans.get(i)).equals("incorrect")) {
                 check = false;
+                }
             }
         }
         return check;
