@@ -8,6 +8,7 @@ package qcasMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -21,9 +22,18 @@ public class FillInTheBlank extends Question {
 
     @Override
     boolean checkValidity(ArrayList<String> ans) {
-        boolean check = true;
-        if(ans.get(0).equals(answerChoices.keySet().toArray()[0].toString())){
-        check = false;}
+        boolean check = false;
+        int count =0;
+        for (Map.Entry<String, String> entry : answerChoices.entrySet()) {
+            entry.getKey();
+            entry.getValue();
+            count+=1;
+            if (ans.get(0).toLowerCase().equals(entry.getKey().toLowerCase()) && count==1) {
+                check = true;
+            }
+        }
+        
+        
         return check;
     }
     

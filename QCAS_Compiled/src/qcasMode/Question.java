@@ -23,7 +23,7 @@ public class Question {
     public String difficulty;
     public int questionNumber;
     public String description;
-    public HashMap answerChoices = new LinkedHashMap();
+    public HashMap<String,String> answerChoices = new LinkedHashMap();
     public ArrayList<Integer> answer = new ArrayList();
 
     /**
@@ -123,7 +123,7 @@ public class Question {
     }
 
     boolean checkValidity(ArrayList<String> ans) {
-        boolean check = true;
+        boolean check = false;
         return check;
     }
 

@@ -20,9 +20,10 @@ public class TrueFalse extends Question {
     }
     
     boolean checkValidity(ArrayList<String> ans) {
-        boolean check = true;
-        if(ans.get(0).equals(answerChoices.keySet().toArray()[0].toString())){
-        check = false;}
+        boolean check = false;
+        if(ans.get(0).toLowerCase().equals(answerChoices.keySet().toArray()[0].toString().toLowerCase())){
+        check = true;
+        }
         return check;
     }
     

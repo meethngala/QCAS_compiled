@@ -21,6 +21,7 @@ import java.util.Set;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -250,10 +251,11 @@ public class Quiz {
             }
             rs = preparedStmt.executeQuery(); // Executes the select all query and stores the result in a result set
             while (rs.next() && questionCounter < numberFIBQuestions) {
-                HashMap answerChoices = new HashMap(); //
+                HashMap<String,String> answerChoices = new LinkedHashMap(); //
                 for (int i = 0; i < 4; i++) {
                     System.out.println(rs.getString("ANSWER" + (i + 1)));
                     System.out.println(rs.getString("VALIDITY" + (i + 1)));
+                    System.out.println("\n\n\n");
                     answerChoices.put(rs.getString("ANSWER" + (i + 1)), rs.getString("VALIDITY" + (i + 1)));
                 }
                 for (int i = 0; i < 4; i++) {
@@ -347,12 +349,18 @@ public class Quiz {
             String insertQuizQuestionQuery = "";
             int rightCount = 0;
 
-            for (int i = 0; i < result.answers.size(); i++) {
+            for (int i = 0; i < questionObjects.size(); i++) {
+                if (value.get(i)!=null){
                 if (questionObjects.get(i).checkValidity(value.get(i))) {
                     rightCount += 1;
                     insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + quizNumber + "," + questionObjects.get(i).questionNumber + "," + "'correct');";
                     stmt.executeUpdate(insertQuizQuestionQuery);
                 } else {
+                    insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + quizNumber + "," + questionObjects.get(i).questionNumber + "," + "'incorrect');";
+                    stmt.executeUpdate(insertQuizQuestionQuery);
+                }
+                }
+                else {
                     insertQuizQuestionQuery = "INSERT INTO QCASRohan.QUIZ_QUESTION VALUES(" + quizNumber + "," + questionObjects.get(i).questionNumber + "," + "'incorrect');";
                     stmt.executeUpdate(insertQuizQuestionQuery);
                 }
@@ -366,7 +374,7 @@ public class Quiz {
             }
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
-            System.out.println(dateFormat.format(date));
+//            System.out.println(dateFormat.format(date));
 
             String resultQuery = "INSERT INTO QCASRohan.RESULTS VALUES(" + "'" + dateFormat.format(date) + "'," + quizNumber + ",'" + student.id + "'," + score + ",'" + grade + "','" + difficultyLevel + "')";
             stmt.execute(resultQuery);
@@ -446,6 +454,37 @@ public class Quiz {
             System.out.println("SQL Exception: " + e);
         }
         
+    }
+    
+    public void importQuestions(String filePath) throws IOException, SQLException{
+        
+            InputFileReader reader = new InputFileReader(); //reader object to read from the input file
+            reader.readFile(filePath); //reading the file containing quiz questions
+            List<String[]> questionDetails = reader.wordsArray; // Each string from the csv file is stored in an ArrayList
+            ArrayList<String> insertQueries = new ArrayList();
+            int mastercounter = 0;
+//             Inserting question details from the csv file words array into the insert String to be run to store values in a database
+            for (int j = 0; j < questionDetails.size(); j++) {
+                String countQuery = "select count(*) as count from QCASRohan.QUESTION";
+                preparedStmt = connection.con.prepareStatement(countQuery);
+                ResultSet rsc = preparedStmt.executeQuery();
+                while (rsc.next()) {
+                    mastercounter = rsc.getInt("count");
+                }
+                String insertString = "INSERT INTO QCASRohan.QUESTION VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                preparedStmt = connection.con.prepareStatement(insertString);
+                for (int i = 0; i < questionDetails.get(j).length; i++) {
+                    preparedStmt.setString(i + 1, questionDetails.get(j)[i]);
+                }
+                for (int k = questionDetails.get(j).length; k < 11; k++) {
+                    preparedStmt.setString(k + 1, "");
+                }
+                mastercounter += 1;
+                preparedStmt.setString(12, "" + mastercounter);
+                int counting = preparedStmt.executeUpdate();
+
+                preparedStmt.executeUpdate();
+        }
     }
 
 }
