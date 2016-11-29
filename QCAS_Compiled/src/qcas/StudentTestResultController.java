@@ -5,6 +5,14 @@
  */
 package qcas;
 
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -13,21 +21,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import qcasMode.Quiz;
 import qcasMode.databaseConnection;
 
@@ -39,32 +50,38 @@ import qcasMode.databaseConnection;
 public class StudentTestResultController implements Initializable {
     @FXML
     private AnchorPane AnchorPane;
+    @FXML
     private Button button;
     @FXML
-    private BarChart<Integer, Integer> performanceBarChart;
+    private Button savePDFButton ;
+    @FXML
+    private BarChart<Integer, Integer> studPerformanceBarChart;
+    @FXML
+    private AnchorPane performanceAnchorPane ;
+    @FXML
+    private Label scoreLabel;
+    @FXML
+    private Label gradeLabel;
+    @FXML
+    private Label pdfDownloadedLabel ;
+    @FXML
+    private Button checkAnswers;
     private final CategoryAxis xAxis = new CategoryAxis();
     private final NumberAxis yAxis = new NumberAxis();
     private XYChart.Series correct = new XYChart.Series<>();
     private XYChart.Series incorrect = new XYChart.Series<>();
     private Quiz quiz;
     
-    @FXML
-    private Label scoreLabel;
-    @FXML
-    private Label gradeLabel;
-    @FXML
-    private Button checkAnswers;
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+                
     }   
     
     public void getChart(){
-        performanceBarChart.setVisible(true);
+        studPerformanceBarChart.setVisible(true);
         
         xAxis.setLabel("Accuracy");
         yAxis.setLabel("Count");
@@ -105,7 +122,7 @@ public class StudentTestResultController implements Initializable {
         else {
         incorrect.getData().add(new XYChart.Data<>("incorrect",0));
         }
-        performanceBarChart.getData().addAll(correct, incorrect);
+        studPerformanceBarChart.getData().addAll(correct, incorrect);
         
         scoreLabel.setText("" + (int)(quiz.getScore()*100) + "/100");
         gradeLabel.setText(quiz.getGrade());
@@ -115,7 +132,8 @@ public class StudentTestResultController implements Initializable {
             System.out.println("SQL Exception: "+ e);
         }
     }
-    
+
+    @FXML
     private void handleButtonAction1(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
         Stage stage = (Stage) button.getScene().getWindow();
@@ -124,10 +142,40 @@ public class StudentTestResultController implements Initializable {
         stage.show();
     }
     
+    @FXML
     public void setQuiz(Quiz quiz){
         this.quiz = quiz;
     }
+    
+    @FXML
+    public void exportToPdf() throws IOException,  DocumentException
+    {
+        WritableImage image = performanceAnchorPane.snapshot(new SnapshotParameters(), null);
+        File file = new File("performance.png");
 
+        try {
+          ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException e) {
+        }        
+        Document document = new Document();
+    String input = "performance.png"; // .gif and .jpg are ok too!
+    String output = "performance.pdf";
+    try {
+      FileOutputStream fos = new FileOutputStream(output);
+      PdfWriter writer = PdfWriter.getInstance(document, fos);
+      writer.open();
+      document.open();
+      document.add(Image.getInstance(input));
+      document.close();
+      writer.close();
+      }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+        pdfDownloadedLabel.setVisible(true) ;
+        
+    }
+    
     @FXML
     private void handleCheckAnswersAction(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -141,4 +189,5 @@ public class StudentTestResultController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    
 }

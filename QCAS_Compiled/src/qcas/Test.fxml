@@ -10,9 +10,14 @@
 <?import javafx.scene.layout.*?>
 <?import qcasMode.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="615.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.TestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="739.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.TestController">
    <children>
-      <AnchorPane layoutX="6.0" layoutY="129.0" prefHeight="337.0" prefWidth="551.0">
+      <Label fx:id="timeUpLabel" prefHeight="296.0" prefWidth="561.0" text="TIME UP!! PRESS SUBMIT TEST TO SAVE YOUR ANSWERS" visible="false" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="-17.0" AnchorPane.topAnchor="-12.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="anchorPane" layoutX="57.0" layoutY="189.0" prefHeight="296.0" prefWidth="561.0">
          <children>
             <TextArea id="testTextArea" fx:id="testTextArea" editable="false" layoutX="14.0" layoutY="36.0" prefHeight="55.0" prefWidth="516.0" promptText="description" style="-fx-border-color: #eef7f3;" />
             <RadioButton id="testRB1" fx:id="testRB1" layoutX="55.0" layoutY="111.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Option A" wrapText="true">
@@ -63,16 +68,11 @@
                </font>
             </Hyperlink>
             <FlowPane layoutX="388.0" layoutY="262.0" prefHeight="25.0" prefWidth="89.0" visible="false" />
-            <Button fx:id="submitButton" layoutX="464.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#handleSubmitAction" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit Test" />
             <TextField fx:id="fibAnswerBlank" layoutX="201.0" layoutY="136.0" promptText="Enter answer here" />
          </children>
       </AnchorPane>
-      <ImageView fitHeight="103.0" fitWidth="613.0">
-         <image>
-            <Image url="@../images/red-cmu-display.jpg" />
-         </image>
-      </ImageView>
-      <Label alignment="CENTER" layoutX="384.0" layoutY="109.0" prefHeight="17.0" prefWidth="107.0" text="Time Remaining: " />
-      <TextArea fx:id="TimerTextArea" layoutX="497.0" layoutY="105.0" prefHeight="25.0" prefWidth="60.0" />
+      <Label alignment="CENTER" layoutX="384.0" layoutY="109.0" prefHeight="17.0" prefWidth="107.0" text="Timer :  " />
+      <TextArea fx:id="TimerTextArea" editable="false" layoutX="497.0" layoutY="105.0" opacity="0.7" prefHeight="25.0" prefWidth="60.0" />
+      <Button fx:id="submitButton" layoutX="497.0" layoutY="425.0" mnemonicParsing="false" onMouseClicked="#handleSubmitAction" prefHeight="25.0" prefWidth="83.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-style: solid;" text="Submit Test" />
    </children>
 </AnchorPane>

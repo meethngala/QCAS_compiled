@@ -391,7 +391,7 @@ public class TestController implements Initializable {
                 }
                 else{
                     answers.add("null");}
-                }
+            }
             if (B.get(i).getClass()==CheckBox.class){
                 CheckBox c= (CheckBox)B.get(i);
                 if(c.isSelected()){
@@ -399,22 +399,22 @@ public class TestController implements Initializable {
                 }
                 else
                     answers.add("null");
-                }
+            }
             if (B.get(i).getClass()==TextField.class){
                 TextField c= (TextField)B.get(i);
-                if(c.getText().equals("")){
+                if(c.getText()!=""){
                     answers.add(c.getText());
                 }
                 else
                     answers.add("null");
-                }
+            }
         }
         
         return answers;
     }
 
   @FXML
-    public void handleSubmitAction(MouseEvent event) throws IOException{
+    public void handleSubmitAction(MouseEvent event) throws IOException{        
         setAnswers(quiz.questions.get(currentQuestionCount-1),getActiveGroup(quiz.questions.get(currentQuestionCount-1).abbreviation));
         List<Question> questionObjects = new ArrayList<>();
         ArrayList<ArrayList<String>> value = new ArrayList();
@@ -432,19 +432,20 @@ public class TestController implements Initializable {
         
         quiz.insertResults(questionObjects, value,"jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest",student);
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("StudentTestResult.fxml"));
+        loader.setLocation(getClass().getResource("ContinueAfterTestPage.fxml"));
         Parent root = (Parent) loader.load();
-        StudentTestResultController studentTestResultController = loader.<StudentTestResultController> getController();
-        studentTestResultController.setQuiz(quiz);
-        studentTestResultController.getChart();
+        ContinueAfterTestPageController continueAfterTestPageController = loader.<ContinueAfterTestPageController> getController();
+        continueAfterTestPageController.setQuiz(quiz);        
         Stage stage = (Stage) submitButton.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        
     
     }
-
+    @FXML
     private void setStudent(Student student) {
         this.student = student;
     }
+    
 }

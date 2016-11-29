@@ -88,8 +88,6 @@ public class StudentQuestionFeedbackController implements Initializable {
         questionReview.setText(feedbackString);
             // TODO
         }
-    
-    
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
