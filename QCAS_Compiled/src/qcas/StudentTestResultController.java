@@ -23,6 +23,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -37,7 +39,6 @@ import qcasMode.databaseConnection;
 public class StudentTestResultController implements Initializable {
     @FXML
     private AnchorPane AnchorPane;
-    @FXML
     private Button button;
     @FXML
     private BarChart<Integer, Integer> performanceBarChart;
@@ -46,6 +47,13 @@ public class StudentTestResultController implements Initializable {
     private XYChart.Series correct = new XYChart.Series<>();
     private XYChart.Series incorrect = new XYChart.Series<>();
     private Quiz quiz;
+    
+    @FXML
+    private Label scoreLabel;
+    @FXML
+    private Label gradeLabel;
+    @FXML
+    private Button checkAnswers;
 
     /**
      * Initializes the controller class.
@@ -80,13 +88,15 @@ public class StudentTestResultController implements Initializable {
         incorrect.getData().add(new XYChart.Data<>("incorrect",validityChecks.get(1)));
         performanceBarChart.getData().addAll(correct, incorrect);
         
+        scoreLabel.setText("" + (int)(quiz.getScore()*100) + "/100");
+        gradeLabel.setText(quiz.getGrade());
         
         // TODO
         } catch(SQLException e){
             System.out.println("SQL Exception: "+ e);
         }
     }
-    @FXML
+    
     private void handleButtonAction1(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
         Stage stage = (Stage) button.getScene().getWindow();
@@ -97,5 +107,19 @@ public class StudentTestResultController implements Initializable {
     
     public void setQuiz(Quiz quiz){
         this.quiz = quiz;
+    }
+
+    @FXML
+    private void handleCheckAnswersAction(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("StudentQuestionFeedback.fxml"));
+        Parent root = (Parent) loader.load();
+        StudentQuestionFeedbackController studentQuestionFeedbackController = loader.<StudentQuestionFeedbackController> getController();
+        studentQuestionFeedbackController.setQuiz(quiz);
+        studentQuestionFeedbackController.showAnswers();
+        Stage stage = (Stage) checkAnswers.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

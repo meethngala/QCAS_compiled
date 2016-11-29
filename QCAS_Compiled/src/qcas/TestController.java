@@ -419,8 +419,15 @@ public class TestController implements Initializable {
         List<Question> questionObjects = new ArrayList<>();
         ArrayList<ArrayList<String>> value = new ArrayList();
         for (Map.Entry<Question, ArrayList<String>> entry : quiz.getResult().getAnswers().entrySet()) {
-            questionObjects.add(entry.getKey());
-            value.add(entry.getValue());
+                questionObjects.add(entry.getKey());
+                value.add(entry.getValue());
+        }
+        
+        for (int i =0; i<quiz.questions.size();i++){
+            if (!questionObjects.contains(quiz.questions.get(i))){
+                questionObjects.add(quiz.questions.get(i));
+                value.add(null);
+            }
         }
         
         quiz.insertResults(questionObjects, value,"jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest",student);
