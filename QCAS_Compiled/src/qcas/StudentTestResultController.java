@@ -76,16 +76,35 @@ public class StudentTestResultController implements Initializable {
         String validityCheck = "SELECT VALIDITY,count(*) As Count from QCASRohan.QUIZ_QUESTION WHERE QUIZID = " + quiz.getQuizNumber() +" group by VALIDITY;";
         ResultSet rs = stmt.executeQuery(validityCheck);
         ArrayList<Integer> validityChecks = new ArrayList();
+        int incorrectCount = 0;
+        int correctCount=0;
         while(rs.next()){
+            if (rs.getString("VALIDITY").equals("correct")){
+                correctCount +=1;
+            }
+            if (rs.getString("VALIDITY").equals("incorrect")){
+                incorrectCount +=1;
+            }
             validityChecks.add(rs.getInt("Count"));
         }
         
         correct.setName("Correct");
-        correct.getData().add(new XYChart.Data<>("incorrect",validityChecks.get(0)));
-        
-        
+        if (correctCount==1 && incorrectCount==0){
+        correct.getData().add(new XYChart.Data<>("correct",validityChecks.get(0)));
+        }
+        else {
+        correct.getData().add(new XYChart.Data<>("correct",0));
+        }
         incorrect.setName("Incorrect");
+        if (incorrectCount==1 && correctCount==0){
+        incorrect.getData().add(new XYChart.Data<>("incorrect",validityChecks.get(0)));
+        }
+        else if (incorrectCount==1 && correctCount==1){
         incorrect.getData().add(new XYChart.Data<>("incorrect",validityChecks.get(1)));
+        }
+        else {
+        incorrect.getData().add(new XYChart.Data<>("incorrect",0));
+        }
         performanceBarChart.getData().addAll(correct, incorrect);
         
         scoreLabel.setText("" + (int)(quiz.getScore()*100) + "/100");

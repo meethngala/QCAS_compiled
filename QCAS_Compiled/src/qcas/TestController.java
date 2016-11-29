@@ -391,7 +391,7 @@ public class TestController implements Initializable {
                 }
                 else{
                     answers.add("null");}
-            }
+                }
             if (B.get(i).getClass()==CheckBox.class){
                 CheckBox c= (CheckBox)B.get(i);
                 if(c.isSelected()){
@@ -399,15 +399,15 @@ public class TestController implements Initializable {
                 }
                 else
                     answers.add("null");
-            }
+                }
             if (B.get(i).getClass()==TextField.class){
                 TextField c= (TextField)B.get(i);
-                if(c.getText()!=""){
+                if(c.getText().equals("")){
                     answers.add(c.getText());
                 }
                 else
                     answers.add("null");
-            }
+                }
         }
         
         return answers;

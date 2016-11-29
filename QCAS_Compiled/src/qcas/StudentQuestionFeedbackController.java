@@ -62,23 +62,27 @@ public class StudentQuestionFeedbackController implements Initializable {
                 feedbackString += "Correct Answer: ";
                 for (int j = 0; j < quiz.questions.get(i).answerChoices.size(); j++) {
                     if (quiz.questions.get(i).answerChoices.get(quiz.questions.get(i).answerChoices.keySet().toArray()[j].toString()).equals("correct")) {
-                        feedbackString += "Answer " + (j + 1) + ": " + quiz.questions.get(i).answerChoices.keySet().toArray()[j].toString() + "\n";
+                        feedbackString += quiz.questions.get(i).answerChoices.keySet().toArray()[j].toString() + ",";
                     }
                 }
+                feedbackString.substring(0, feedbackString.length()-1);
+                feedbackString += "\n";
             }
             else {
-                feedbackString += "Correct Answer: " + quiz.questions.get(i).answerChoices.keySet().toArray()[0].toString() + "\n";
+                feedbackString += "Correct Answer: " + quiz.questions.get(i).answerChoices.keySet().toArray(new String[0])[0];
+                feedbackString += "\n";
                 }
+            feedbackString += "Your Answer: ";
+            String yourAnswerString = "No Answer";
             for (int j = 0; j < quiz.getResult().getAnswers().get(quiz.questions.get(i)).size(); j++) {
-                if(quiz.getResult().getAnswers().get(quiz.questions.get(i))!=null){
+                if(quiz.getResult().getAnswers().get(quiz.questions.get(i))!=null && !quiz.getResult().getAnswers().get(quiz.questions.get(i)).equals("")){  
                     if (!quiz.getResult().getAnswers().get(quiz.questions.get(i)).get(j).equals("null")) {
-                        feedbackString += "Your Answer: " + quiz.getResult().getAnswers().get(quiz.questions.get(i)).get(j) + "\n";
+                        yourAnswerString = quiz.getResult().getAnswers().get(quiz.questions.get(i)).get(j) + ",";
+                        }
                     }
                 }
-                else {
-                    feedbackString += "Your Answer: No Answer"  + "\n";
-                    }
-                }
+            
+            feedbackString += yourAnswerString + "\n";
             feedbackString += "\n\n";
             }
         questionReview.setText(feedbackString);
