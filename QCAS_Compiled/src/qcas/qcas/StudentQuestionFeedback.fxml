@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="AnchorPane" prefHeight="480.0" prefWidth="615.0" style="-fx-background-color: #eef7f3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.StudentQuestionFeedbackController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="37.0" prefHeight="50.0" prefWidth="549.0" style="-fx-background-color: #ADD8E6;" text="Review">
+         <font>
+            <Font name="Arial Black" size="48.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="questionReview" layoutX="39.0" layoutY="123.0" prefHeight="343.0" prefWidth="549.0" />
+   </children>
+</AnchorPane>
