@@ -10,43 +10,80 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #eef7f3;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qcas.InstructorDashboardController">
-    <stylesheets>
-        <URL value="@instructordashboard.css" />
-    </stylesheets>
+    
    <children>
+      <AnchorPane id="lineChartAnchorPaneTR" fx:id="lineChartAnchorPaneTR" layoutX="811.0" layoutY="86.0">
+         <children>
+            <LineChart id="Line2" fx:id="Line2" prefHeight="288.0" prefWidth="379.0" style=" -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15;">
+               <xAxis>
+                  <CategoryAxis id="Line" fx:id="Line" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
+            </LineChart>
+         </children>
+      </AnchorPane>
       <Label id="WelcomeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" prefHeight="71.0" prefWidth="1200.0" style="-fx-background-color: #ADD8E6; -fx-border-color: black;" text="DASHBOARD" textFill="#1b1a1a">
          <font>
             <Font size="41.0" />
          </font>
       </Label>
       <Button id="dashboardLogout" fx:id="dashboardLogout" layoutX="1030.0" layoutY="17.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="81.0" style="-fx-border-color: black;" text="Log out" textFill="#262525" />
-      <PieChart id="Pie1" fx:id="Pie1" layoutX="419.0" layoutY="86.0" prefHeight="288.0" prefWidth="379.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: black;" />
-      <Button id="dashboardBack" fx:id="dashboardBack" layoutX="92.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction1" prefHeight="45.0" prefWidth="156.0" style="-fx-border-color: black;" text="Back" />
+      <AnchorPane fx:id="pieChartAnchorPane" layoutX="432.0" layoutY="86.0">
+         <children>
+            <PieChart id="Pie1" fx:id="Pie1" prefHeight="288.0" prefWidth="379.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: black;" />
+         </children>
+      </AnchorPane>
+      <Button id="dashboardBack" fx:id="dashboardBack" layoutX="105.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction1" prefHeight="45.0" prefWidth="156.0" style="-fx-border-color: black;" text="Back" />
       <Slider id="slider" fx:id="slider" layoutX="537.0" layoutY="686.0" prefHeight="15.0" prefWidth="548.0" />
-      <LineChart id="Line2" fx:id="Line2" layoutX="811.0" layoutY="86.0" prefHeight="288.0" prefWidth="379.0" style=" -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15;">
-         <xAxis>
-            <CategoryAxis id="Line" fx:id="Line" side="BOTTOM" />
-         </xAxis>
-         <yAxis>
-            <NumberAxis side="LEFT" />
-         </yAxis>
-      </LineChart>
-      <Label layoutX="23.0" layoutY="93.0" prefHeight="450.0" prefWidth="338.0" style="-fx-background-color: #69BF92; -fx-border-color: black;" text="FILL THIS LABEL WITH WORDS" />
-      <LineChart id="Line1" fx:id="Line1" layoutX="811.0" layoutY="374.0" prefHeight="279.0" prefWidth="379.0" style=" -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15;">
-         <xAxis>
-            <CategoryAxis side="BOTTOM" />
-         </xAxis>
-         <yAxis>
-            <NumberAxis side="LEFT" />
-         </yAxis>
-      </LineChart>
-      <StackedBarChart id="Bar1" fx:id="Bar1" layoutX="298.0" layoutY="374.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </StackedBarChart>
+      <Label layoutX="23.0" layoutY="93.0" prefHeight="256.0" prefWidth="338.0" />
+      <AnchorPane id="lineChartAnchorPaneBR" fx:id="lineChartAnchorPaneBR" layoutX="811.0" layoutY="374.0">
+         <children>
+            <LineChart id="Line1" fx:id="Line1" prefHeight="279.0" prefWidth="379.0" style=" -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15;">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
+            </LineChart>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="stackedBarAnchorPane" fx:id="stackedBarAnchorPane" layoutX="432.0" layoutY="374.0">
+         <children>
+            <StackedBarChart id="Bar1" fx:id="Bar1" prefHeight="279.0" prefWidth="379.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: black;">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis autoRanging="false" side="LEFT" tickUnit="10.0" upperBound="50.0" />
+              </yAxis>
+            </StackedBarChart>
+         </children>
+      </AnchorPane>
+      <Label alignment="CENTER" layoutX="45.0" layoutY="206.0" prefHeight="30.0" prefWidth="176.0" text="Total number of students :">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="41.0" layoutY="254.0" prefHeight="30.0" prefWidth="183.0" text="Total number of quizzes :">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label layoutX="42.0" layoutY="301.0" prefHeight="30.0" prefWidth="183.0" text="Total number of questions :">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label id="studentNumber" fx:id="studentNumber" layoutX="255.0" layoutY="213.0" text="Label" />
+      <Label id="quizNumber" fx:id="quizNumber" layoutX="255.0" layoutY="260.0" text="Label" />
+      <Label id="numberOfQuestions" fx:id="numberOfQuestions" layoutX="255.0" layoutY="308.0" text="Label" />
+      <Label alignment="CENTER" layoutX="45.0" layoutY="111.0" prefHeight="86.0" prefWidth="276.0" text="Statistics">
+         <font>
+            <Font size="50.0" />
+         </font></Label>
+      <Label layoutX="653.0" layoutY="662.0" prefHeight="17.0" prefWidth="324.0" text="Please slide the bar to see the graphs over a time period" />
+      <Label layoutX="608.0" layoutY="715.0" text="Last Month" />
+      <Label layoutX="797.0" layoutY="715.0" text="Last Quarter" />
+      <Label layoutX="1016.0" layoutY="715.0" text="Last Year" />
    </children>
 </AnchorPane>

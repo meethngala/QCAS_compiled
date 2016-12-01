@@ -33,8 +33,10 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import qcasMode.Result;
@@ -70,18 +72,45 @@ private ObservableList comboData = FXCollections.observableArrayList();
     private Button dashboardBack;
     @FXML
     private CategoryAxis Line;
+    @FXML
+    private Label studentNumber;
+    @FXML
+    private Label quizNumber;
+    @FXML
+    private Label numberOfQuestions;
+    @FXML
+    private AnchorPane lineChartAnchorPaneTR;
+    @FXML
+    private AnchorPane pieChartAnchorPane;
+    @FXML
+    private AnchorPane lineChartAnchorPaneBR;
+    @FXML
+    private AnchorPane stackedBarAnchorPane;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            // TODO
 //        comboData.add("Year");
 //       comboData.add("Month");
 //       comboData.add("Quarter");
 //       timeComboBox.setItems(comboData);
-        
-        
+            
+            analysePerf("Month");
+            numberOfQuizzes("Month");
+            studentPie("Month");
+              makeBar();
+              displayStats();
+        } catch (IOException ex) {
+            Logger.getLogger(InstructorDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(InstructorDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+          
         
         slider.valueProperty().addListener(new ChangeListener<Number>() {
   @Override
@@ -150,6 +179,21 @@ try {
         stage.show();
     }
     
+    private void handleLogoutButton(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Stage stage = (Stage) dashboardLogout.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    private void handleBackButton(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("TeacherLogin.fxml"));
+        Stage stage = (Stage) dashboardBack.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
     private void makePie(/*MouseEvent event*/) throws IOException {
         Pie1.setVisible(true);
         Bar1.setVisible(false);
@@ -167,71 +211,33 @@ try {
         Pie1.setData(pieChartData);
     }
     
-//    private void makeLine(/*MouseEvent event*/) throws IOException {
-//        Pie1.setVisible(false);
-//        Bar1.setVisible(false);
-//        Line1.setVisible(true);       
-//        Line1.getData().clear();
-//        //defining the axes
-//        final CategoryAxis xAxis = new CategoryAxis();
-//        final NumberAxis yAxis = new NumberAxis();
-//         xAxis.setLabel("Time");
-//         yAxis.setLabel("Average Marks");
-//         
-//        XYChart.Series series1 = new XYChart.Series();
-//        series1.setName("Easy");
-//        
-//        XYChart.Series series2 = new XYChart.Series();
-//        series2.setName("Medium");
-//        
-//        XYChart.Series series3 = new XYChart.Series();
-//        series3.setName("Hard");                      
-//                
-//        series1.getData().add(new XYChart.Data("Jan", 23));
-//        series1.getData().add(new XYChart.Data("Feb", 14));
-//        series1.getData().add(new XYChart.Data("Mar", 15));
-//        series1.getData().add(new XYChart.Data("Apr", 24));
-//        series1.getData().add(new XYChart.Data("May", 34));
-//        series1.getData().add(new XYChart.Data("Jun", 36));
-//        series1.getData().add(new XYChart.Data("Jul", 22));
-//        series1.getData().add(new XYChart.Data("Aug", 45));
-//        series1.getData().add(new XYChart.Data("Sep", 43));
-//        series1.getData().add(new XYChart.Data("Oct", 17));
-//        series1.getData().add(new XYChart.Data("Nov", 29));
-//        series1.getData().add(new XYChart.Data("Dec", 25));
-//        
-//        series2.getData().add(new XYChart.Data("Jan", 33));
-//        series2.getData().add(new XYChart.Data("Feb", 34));
-//        series2.getData().add(new XYChart.Data("Mar", 25));
-//        series2.getData().add(new XYChart.Data("Apr", 44));
-//        series2.getData().add(new XYChart.Data("May", 39));
-//        series2.getData().add(new XYChart.Data("Jun", 16));
-//        series2.getData().add(new XYChart.Data("Jul", 55));
-//        series2.getData().add(new XYChart.Data("Aug", 54));
-//        series2.getData().add(new XYChart.Data("Sep", 48));
-//        series2.getData().add(new XYChart.Data("Oct", 27));
-//        series2.getData().add(new XYChart.Data("Nov", 37));
-//        series2.getData().add(new XYChart.Data("Dec", 29));
-//        
-//        
-//        series3.getData().add(new XYChart.Data("Jan", 44));
-//        series3.getData().add(new XYChart.Data("Feb", 35));
-//        series3.getData().add(new XYChart.Data("Mar", 36));
-//        series3.getData().add(new XYChart.Data("Apr", 33));
-//        series3.getData().add(new XYChart.Data("May", 31));
-//        series3.getData().add(new XYChart.Data("Jun", 26));
-//        series3.getData().add(new XYChart.Data("Jul", 22));
-//        series3.getData().add(new XYChart.Data("Aug", 25));
-//        series3.getData().add(new XYChart.Data("Sep", 43));
-//        series3.getData().add(new XYChart.Data("Oct", 44));
-//        series3.getData().add(new XYChart.Data("Nov", 45));
-//        series3.getData().add(new XYChart.Data("Dec", 44));
-//          
-//        Line1.getData().addAll(series1, series2, series3);
-//        Line1.setTitle("Student Performance");
-//        
-//    }
-    
+    public void displayStats() throws SQLException{
+        ResultSet rs1;
+        ResultSet rs2;
+        ResultSet rs3;
+        connection = new databaseConnection("jdbc:mysql://qcasrohan.caswkasqdmel.ap-southeast-2.rds.amazonaws.com:3306/QCASRohan?zeroDateTimeBehavior=convertToNull", "rohan", "rohantest");
+            stmt = connection.con.createStatement();
+        String l1= "SELECT MAX(QCASRohan.QUESTION.pk_column) as MAX FROM QUESTION;";
+        
+        rs1= stmt.executeQuery(l1);
+        while(rs1.next())
+        {
+        numberOfQuestions.setText(rs1.getString("MAX"));
+        }
+        String l2= " Select count(*) as COUNT from (Select distinct STUDENTID FROM QCASRohan.RESULTS) da;" ;
+        rs2= stmt.executeQuery(l2);
+        while(rs2.next())
+        {
+            studentNumber.setText(rs2.getString("COUNT"));
+        }
+            String l3= " SELECT MAX(QUIZID) as MAX from QCASRohan.RESULTS;";
+            rs3 = stmt.executeQuery(l3);
+            while(rs3.next())
+            {
+            quizNumber.setText(rs3.getString("MAX"));
+            }
+        
+    }
     public void makeBar(/*MouseEvent event*/) throws IOException, SQLException {
         //Pie1.setVisible(false);
         Bar1.setVisible(true);
@@ -243,8 +249,9 @@ try {
         
         Bar1.getXAxis().setLabel("Question ID");
         Bar1.getYAxis().setLabel("Frequency of Question");
-    //Bar1.setScaleY(10.0);
-        Bar1.getYAxis().setLayoutY(50);
+        //Bar1.setScaleY(50.0);
+       
+        Bar1.getYAxis().setLayoutY(100);
         XYChart.Series series1 = new XYChart.Series();
         XYChart.Series series2 = new XYChart.Series();
         
@@ -269,11 +276,7 @@ try {
         }
                
         Bar1.getData().addAll(series1,series2);
-//        Scene scene = new Scene(Bar1, 800, 600);
-//        Stage stage = new Stage();
-//        Bar1.getData().addAll(series1, series2);
-//        stage.setScene(scene);
-//        stage.show();
+
         Bar1.setTitle("Student Performance");
     }
 
